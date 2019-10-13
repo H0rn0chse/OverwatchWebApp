@@ -8,20 +8,8 @@ var LocalStorageHandler = (function () {
 		lang: "DE"
 	};
 
-	/*//========================================================
-	window.buffer = {};
-	var oMock = {
-		EntryList: [{
-			session: 1,
-			class: "damage",
-			rating: 1000,
-			teamSize: 1
-		}, {
-			session: 1,
-			class: "damage",
-			rating: 1020,
-			teamSize: 1
-		}],
+	var _DefaultObject = {
+		EntryList: [],
 		StaticParameter : {
 			values: [{
 				id: "session",
@@ -53,11 +41,7 @@ var LocalStorageHandler = (function () {
 				}]
 			}
 		}
-	};
-	window.buffer.Settings = JSON.stringify(_oSettings);
-	window.buffer.EntryList = JSON.stringify(oMock.EntryList);
-	window.buffer.StaticParameter = JSON.stringify(oMock.StaticParameter);
-	//========================================================*/
+	}
 
 	function _log (sMsg) {
 		if (_bDebug) {
@@ -67,12 +51,12 @@ var LocalStorageHandler = (function () {
 
 	function _checkLocalStorage () {
 		var sSettings = localStorage.getItem('Settings');
-		//var sSettings = window.buffer['Settings'];
 
 		if (!sSettings) { // Initial access
 			localStorage.clear();
 			localStorage.setItem('Settings', JSON.stringify(_oSettings));
-			//window.buffer['Settings'] = JSON.stringify(_oSettings);
+			localStorage.setItem('EntryList', JSON.stringify(_DefaultObject.EntryList));
+			localStorage.setItem('StaticParameter', JSON.stringify(_DefaultObject.StaticParameter));
 		} else {
 			_oSettings = JSON.parse(sSettings);
 		}
@@ -131,9 +115,7 @@ var LocalStorageHandler = (function () {
 		readData: () => {
 			_log("readData started");
 			var sEntryList = localStorage.getItem('EntryList');
-			//var sEntryList = window.buffer.EntryList;
 			var sStaticParameter = localStorage.getItem('StaticParameter');
-			//var sStaticParameter = window.buffer.StaticParameter;
 			var oTemp = {
 				EntryList: JSON.parse(sEntryList),
 				StaticParameter: JSON.parse(sStaticParameter),
@@ -145,9 +127,7 @@ var LocalStorageHandler = (function () {
 		writeData: (oData) => {
 			_log("writeData started");
 			localStorage.setItem('EntryList', oData.EntryList);
-			//window.buffer.EntryList = oData.EntryList;
 			localStorage.setItem('StaticParameter', oData.StaticParameter);
-			//window.buffer.StaticParameter = oData.StaticParameter;
 			_log("writeData successfull");
 		}
 	};

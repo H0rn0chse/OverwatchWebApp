@@ -123,8 +123,8 @@ var Manager = (function () {
 		importJSON: () => {
 			FileHandler.openFile().then(function (sData) {
 				_oData = LocalStorageHandler.importData(sData);
+				_buildTable();
 			}.bind(this));
-			_buildTable();
 		},
 
 		exportJSON: () => {

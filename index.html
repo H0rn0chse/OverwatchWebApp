@@ -3,12 +3,53 @@
 	<meta charset="utf-8">
 	<title>OverwatchWebApp</title>
 
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 	<link rel="stylesheet" href="css/index.css">
+	<link rel="stylesheet" href="css/Data.css">
+	<link rel="stylesheet" href="css/Analysis.css">
+	<link rel="stylesheet" href="css/Settings.css">
 
 	<script type="text/javascript" src="scripts/index.js"></script>
+	<script type="text/javascript" src="scripts/Manager.js"></script>
+	<script type="text/javascript" src="scripts/LocalStorageHandler.js"></script>
+	<script type="text/javascript" src="scripts/FileHandler.js"></script>
+	<script type="text/javascript" src="scripts/VizHandler.js"></script>
+	<script type="text/javascript" src="scripts/Utils.js"></script>
 </head>
 <body>
-	<div>
-		<p>Hi</p>
+	<div id="content">
+		<header>
+			<h1>OverwatchWebApp</h1>
+		</header>
+		<nav>
+			<div class="tab">
+				<button class="tablinks" onclick="openTab(event, 'Data')" id="defaultOpen">Data</button>
+				<button class="tablinks" onclick="openTab(event, 'Analysis')">Analysis</button>
+				<button class="tablinks" onclick="openTab(event, 'Settings')">Settings</button>
+			</div>
+		</nav>
+		<section id="Data" class="tabcontent">
+			<nav>
+				<h3>Data</h3>
+				<div>
+					<button onclick="Manager.loadFromLocalStorage()">load from localStorage</button>
+					<button onclick="Manager.saveToLocalStorage()">save to localStorage</button>
+					<button onclick="Manager.importJSON()">import from JSON</button>
+					<button onclick="Manager.exportJSON()">export to JSON</button>
+				</div>
+			</nav>
+		</section>
+			
+		<section id="Analysis" class="tabcontent">
+			<h3>Analysis</h3>
+		</section>
+			
+		<section id="Settings" class="tabcontent">
+			<h3>Settings</h3>
+		</section>
+		<footer>
+			<p>footer</p>
+		</footer>
 	</div>
+	<div id="hidden"></div>
 </body>

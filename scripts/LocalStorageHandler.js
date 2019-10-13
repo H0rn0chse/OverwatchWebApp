@@ -69,7 +69,7 @@ var LocalStorageHandler = (function () {
 		var sSettings = localStorage.getItem('Settings');
 		//var sSettings = window.buffer['Settings'];
 
-		if (sSettings) { // Initial access
+		if (!sSettings) { // Initial access
 			localStorage.clear();
 			localStorage.setItem('Settings', JSON.stringify(_oSettings));
 			//window.buffer['Settings'] = JSON.stringify(_oSettings);

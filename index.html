@@ -15,41 +15,40 @@
 	<script type="text/javascript" src="scripts/FileHandler.js"></script>
 	<script type="text/javascript" src="scripts/VizHandler.js"></script>
 	<script type="text/javascript" src="scripts/Utils.js"></script>
+
+	<script type="text/javascript" src="scripts/templates/Input.js"></script>
 </head>
 <body>
-	<div id="content">
-		<header>
-			<h1>OverwatchWebApp</h1>
-		</header>
+	<header>
+		<h1>OverwatchWebApp</h1>
+	</header>
+	<nav>
+		<div class="tab">
+			<button class="tablinks" onclick="openTab(event, 'Data')" id="defaultOpen">Data</button>
+			<button class="tablinks" onclick="openTab(event, 'Analysis')">Analysis</button>
+			<button class="tablinks" onclick="openTab(event, 'Settings')">Settings</button>
+		</div>
+	</nav>
+	<section id="Data" class="tabcontent">
 		<nav>
-			<div class="tab">
-				<button class="tablinks" onclick="openTab(event, 'Data')" id="defaultOpen">Data</button>
-				<button class="tablinks" onclick="openTab(event, 'Analysis')">Analysis</button>
-				<button class="tablinks" onclick="openTab(event, 'Settings')">Settings</button>
+			<div>
+				<button onclick="Manager.loadFromLocalStorage()">load from localStorage</button>
+				<button onclick="Manager.saveToLocalStorage()">save to localStorage</button>
+				<button onclick="Manager.importJSON()">import from JSON</button>
+				<button onclick="Manager.exportJSON()">export to JSON</button>
 			</div>
 		</nav>
-		<section id="Data" class="tabcontent">
-			<nav>
-				<h3>Data</h3>
-				<div>
-					<button onclick="Manager.loadFromLocalStorage()">load from localStorage</button>
-					<button onclick="Manager.saveToLocalStorage()">save to localStorage</button>
-					<button onclick="Manager.importJSON()">import from JSON</button>
-					<button onclick="Manager.exportJSON()">export to JSON</button>
-				</div>
-			</nav>
-		</section>
-			
-		<section id="Analysis" class="tabcontent">
-			<h3>Analysis</h3>
-		</section>
-			
-		<section id="Settings" class="tabcontent">
-			<h3>Settings</h3>
-		</section>
-		<footer>
-			<p>footer</p>
-		</footer>
-	</div>
+	</section>
+		
+	<section id="Analysis" class="tabcontent">
+		<h3>Analysis</h3>
+	</section>
+		
+	<section id="Settings" class="tabcontent">
+		<h3>Settings</h3>
+	</section>
+	<footer>
+		<a href="https://www.github.com/H0rn0chse" target="_blank">My Github Profile</a>
+	</footer>
 	<div id="hidden"></div>
 </body>

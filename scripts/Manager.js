@@ -30,31 +30,12 @@ var Manager = (function () {
 			var oRow = document.createElement("tr");
 			aHeader.forEach((headerElem) => {
 				var oCell = document.createElement("td");
-				var oContent;
-				switch (headerElem.type) {
-					case "number":
-						oContent = document.createElement("input");
-						oContent.setAttribute("type", "number");
-						oContent.value = elem[headerElem.id];
-						break;
-					case "text":
-						oContent = document.createElement("input");
-						oContent.setAttribute("type", "number");
-						oContent.value = elem[headerElem.id];
-						break;
-					case "list":
-						oContent = document.createElement("select");
-						_oData.StaticParameter.lists[headerElem.id].forEach((listElem) => {
-							var oListItem = document.createElement("option");
-							oListItem.setAttribute("value", listElem.id)
-							oListItem.innerText = listElem[sLang];
-							if (elem[headerElem.id] === listElem.id) {
-								oListItem.setAttribute("selected", true);
-							}
-							oContent.appendChild(oListItem)
-						});
-						break;
-				}
+				var oContent = new tInput({
+					lang: sLang,
+					type: headerElem.type,
+					value: elem[headerElem.id],
+					listItems: _oData.StaticParameter.lists[headerElem.id]
+				}).render();
 
 				oCell.appendChild(oContent);
 				oRow.appendChild(oCell);
@@ -70,26 +51,11 @@ var Manager = (function () {
 		var oRow = document.createElement("tr");
 		aHeader.forEach((headerElem) => {
 			var oCell = document.createElement("td");
-				var oContent;
-				switch (headerElem.type) {
-					case "number":
-						oContent = document.createElement("input");
-						oContent.setAttribute("type", "number");
-						break;
-					case "text":
-						oContent = document.createElement("input");
-						oContent.setAttribute("type", "number");
-						break;
-					case "list":
-						oContent = document.createElement("select");
-						_oData.StaticParameter.lists[headerElem.id].forEach((listElem) => {
-							var oListItem = document.createElement("option");
-							oListItem.setAttribute("value", listElem.id)
-							oListItem.innerText = listElem[sLang];
-							oContent.appendChild(oListItem)
-						});
-						break;
-				}
+				var oContent = new tInput({
+					lang: sLang,
+					type: headerElem.type,
+					listItems: _oData.StaticParameter.lists[headerElem.id]
+				}).render();
 
 				oCell.appendChild(oContent);
 				oRow.appendChild(oCell);

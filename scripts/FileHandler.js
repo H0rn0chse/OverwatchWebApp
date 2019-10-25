@@ -1,69 +1,74 @@
-var FileHandler = (function () {
-	'use strict';
-	var MODULE_NAME = "FileHandler"
-	var _bDebug = false;
-	var _eFileHandler;
-	var fnResolve = () => {};
-	var fnReject = () => {};
+'use strict';
+Promise.all([
+	Promise.resolve()
+]).then(function () {
+	window.FileHandler = (() => {
+		const MODULE_NAME = "FileHandler"
+		let _bDebug = false;
+		let _oFileHandler;
+		let fnResolve = () => {};
+		let fnReject = () => {};
 
-	function _log (sMsg) {
-		if (_bDebug) {
-			console.log(sMsg, MODULE_NAME);
-		}
-	}
-
-	function _addLoadFile () {
-		_eFileHandler = document.createElement("input")
-		_eFileHandler.setAttribute('id', "FileHandler");
-		_eFileHandler.setAttribute('type', 'file');
-		_eFileHandler.setAttribute('accept', '.json');
-		_eFileHandler.setAttribute('multiple', false);
-		document.getElementById("hidden").appendChild(_eFileHandler);
-
-		_eFileHandler.onchange = _handleFileSelect;
-	}
-
-	function _handleFileSelect (evt) {
-		var oFile = evt.target.files[0];
-		var oReader = new FileReader();
-		oReader.onload = (evt) => {
-				_log("openFile successfull");
-				return fnResolve(evt.target.result);
+		const _log = sMsg => {
+			if (_bDebug) {
+				console.log(sMsg, MODULE_NAME);
 			}
-		oReader.readAsText(oFile);
-	}
+		};
 
-	function _saveFile(filename, text) {
-        var oTemp = document.createElement('a');
-        oTemp.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-        oTemp.setAttribute('download', filename);
-        oTemp.click();
-	}
+		const _addLoadFile = () => {
+			_oFileHandler = document.createElement("input")
+			_oFileHandler.setAttribute('id', "FileHandler");
+			_oFileHandler.setAttribute('type', 'file');
+			_oFileHandler.setAttribute('accept', '.json');
+			_oFileHandler.setAttribute('multiple', false);
+			document.getElementById("hidden").appendChild(_oFileHandler);
 
-	return {
-		init: (debug) => {
-			if (debug) {
-				_bDebug = true;
-			}
-			_addLoadFile();
-			
-			_log("module initialized");
-		},
+			_oFileHandler.onchange = _handleFileSelect;
+		};
 
-		saveFile: (filename, text) => {
-			_log("saveFile started");
-			_saveFile(filename, text);
-			_log("saveFile successfull");
-		},
+		const _handleFileSelect = oEvt => {
+			const oFile = oEvt.target.files[0];
+			const oReader = new FileReader();
+			oReader.onload = oEvt => {
+					_log("openFile successfull");
+					return fnResolve(oEvt.target.result);
+				}
+			oReader.readAsText(oFile);
+		};
 
-		openFile: () => {
-			_log("openFile started");
-			_eFileHandler.click();
+		const _saveFile = (sFileName, sText) => {
+			const oTemp = document.createElement('a');
+			oTemp.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(sText));
+			oTemp.setAttribute('download', sFileName);
+			oTemp.click();
+		};
+
+		const _openFile = () => {
+			_oFileHandler.click();
 			fnReject();
 			return new Promise((resolve, reject) => {
 				fnResolve = resolve;
 				fnReject = reject;
 			});
-		}
-	};
-}());
+		};
+
+		return {
+			init: (debug) => {
+				if (debug) {
+					_bDebug = true;
+				}
+				_addLoadFile();
+				
+				_log("module initialized");
+			},
+
+			saveFile: (sFileName, sText) => {
+				return _saveFile(sFileName, sText);
+			},
+
+			openFile: () => {
+				return _openFile()
+			}
+		};
+	})();
+});

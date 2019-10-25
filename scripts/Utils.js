@@ -1,45 +1,57 @@
-var Utils = (function () {
-	'use strict';
-	var MODULE_NAME = "Utils"
-	var _bDebug = false;
+'use strict';
+Promise.all([
+	Promise.resolve()
+]).then(function () {
+	window.Utils = (() => {
+		const MODULE_NAME = "Utils"
+		let _bDebug = false;
 
-	function _log (sMsg) {
-		if (_bDebug) {
-			console.log(sMsg, MODULE_NAME);
-		}
-	}
-
-	return {
-		init: (debug) => {
-			if (debug) {
-				_bDebug = true;
+		const _log = (sMsg) => {
+			if (_bDebug) {
+				console.log(sMsg, MODULE_NAME);
 			}
+		};
 
-			_log("module initialized");
-		},
+		const _readPath = (sPath, oObj) => {
+			let oTemp = JSON.parse(JSON.stringify(oObj));
+				const aParts = sPath.split(".")
+				aParts.forEach((elem) => {
+					if (oTemp[elem]) {
+						oTemp = oTemp[elem];
+					} else {
+						oTemp = undefined;
+					}
+				})
+				return oTemp;
+		};
 
-		readPath: (sPath, oObj) => {
-			var oTemp = JSON.parse(JSON.stringify(oObj));
-			var aParts = sPath.split(".")
-			aParts.forEach((elem) => {
-				if (oTemp[elem]) {
-					oTemp = oTemp[elem];
-				} else {
-					oTemp = undefined;
+		const _setPath = (sPath, oObj, oValue) => {
+			const aParts = sPath.split(".")
+				aParts.forEach((elem) => {
+					if (!oObj[elem]) {
+						oObj[elem] = {}
+					}
+					oObj = oObj[elem];
+				})
+				oObj = oValue;
+		};
+
+		return {
+			init: (debug) => {
+				if (debug) {
+					_bDebug = true;
 				}
-			})
-			return oTemp;
-		},
 
-		setPath: (sPath, oObj, oValue) => {
-			var aParts = sPath.split(".")
-			aParts.forEach((elem) => {
-				if (!oObj[elem]) {
-					oObj[elem] = {}
-				}
-				oObj = oObj[elem];
-			})
-			oObj = oValue;
-		}
-	};
-}());
+				_log("module initialized");
+			},
+
+			readPath: (sPath, oObj) => {
+				return _readPath(sPath, oObj);
+			},
+
+			setPath: (sPath, oObj, oValue) => {
+				return _setPath(sPath, oObj, oValue);
+			}
+		};
+	})();
+});

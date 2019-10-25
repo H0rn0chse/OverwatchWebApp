@@ -1,105 +1,133 @@
-var Manager = (function () {
-	'use strict';
-	var MODULE_NAME = "Manager"
-	var _bDebug = false;
-	var _oData = {};
+'use strict';
+Promise.all([
+	load.js("scripts/LocalStorageHandler.js"),
+	load.js("scripts/FileHandler.js"),
+	load.js("scripts/VizHandler.js"),
+	load.js("scripts/Utils.js"),
+	load.js("scripts/templates/Input.js"),
+]).then(function () {
+	window.Manager = (() => {
+		const MODULE_NAME = "Manager"
+		let _bDebug = false;
+		let _oData = {};
 
-	function _log (sMsg) {
-		if (_bDebug) {
-			console.log(sMsg, MODULE_NAME);
-		}
-	}
+		const _log = sMsg => {
+			if (_bDebug) {
+				console.log(sMsg, MODULE_NAME);
+			}
+		};
 
-	function _buildTable() {
-		var sLang = LocalStorageHandler.getConfig("lang")
-		var oTable = document.createElement("table");
-		// Header
-		var oHRow = document.createElement("tr");
-		var aHeader = _oData.StaticParameter.values;
-		aHeader.forEach((elem) => {
-			var oCell = document.createElement("th");
-			oCell.innerHTML = elem[sLang];
-			oHRow.appendChild(oCell)
-		});
-		oHRow.appendChild(document.createElement("th"))
-		oTable.appendChild(oHRow);
+		const _buildTable = () => {
+			const sLang = LocalStorageHandler.getConfig("lang")
+			const oTable = document.createElement("table");
+			// Header
+			const oHRow = document.createElement("tr");
+			const aHeader = _oData.StaticParameter.values;
+			aHeader.forEach(oElem => {
+				const oCell = document.createElement("th");
+				oCell.innerHTML = oElem[sLang];
+				oHRow.appendChild(oCell)
+			});
+			oHRow.appendChild(document.createElement("th"))
+			oTable.appendChild(oHRow);
 
-		// Rows
-		var aRows = _oData.EntryList;
-		aRows.forEach((elem) => {
-			var oRow = document.createElement("tr");
+			// Rows
+			const aRows = _oData.EntryList;
+			aRows.forEach(oElem => {
+				const oRow = document.createElement("tr");
+				aHeader.forEach(headerElem => {
+					const oCell = document.createElement("td");
+					const oContent = new tInput({
+						lang: sLang,
+						type: headerElem.type,
+						value: oElem[headerElem.id],
+						listItems: _oData.StaticParameter.lists[headerElem.id]
+					}).render();
+
+					oCell.appendChild(oContent);
+					oRow.appendChild(oCell);
+				});
+				const oBla = document.createElement("td");
+				const oButton = document.createElement("button")
+				oBla.appendChild(oButton)
+				oRow.appendChild(oBla);
+				oTable.appendChild(oRow);
+			})
+
+			// New inputs
+			const oRow = document.createElement("tr");
 			aHeader.forEach((headerElem) => {
-				var oCell = document.createElement("td");
-				var oContent = new tInput({
+				const oCell = document.createElement("td");
+				const oContent = new tInput({
 					lang: sLang,
 					type: headerElem.type,
-					value: elem[headerElem.id],
 					listItems: _oData.StaticParameter.lists[headerElem.id]
 				}).render();
 
 				oCell.appendChild(oContent);
 				oRow.appendChild(oCell);
 			});
-			var oBla = document.createElement("td");
-			var oButton = document.createElement("button")
-			oBla.appendChild(oButton)
-			oRow.appendChild(oBla);
 			oTable.appendChild(oRow);
-		})
 
-		// New inputs
-		var oRow = document.createElement("tr");
-		aHeader.forEach((headerElem) => {
-			var oCell = document.createElement("td");
-				var oContent = new tInput({
-					lang: sLang,
-					type: headerElem.type,
-					listItems: _oData.StaticParameter.lists[headerElem.id]
-				}).render();
+			document.getElementById("Data").appendChild(oTable);
+		};
 
-				oCell.appendChild(oContent);
-				oRow.appendChild(oCell);
-		});
-		oTable.appendChild(oRow);
-
-		document.getElementById("Data").appendChild(oTable);
-	}
-
-	return {
-		init: (debug) => {
-			if (debug) {
-				_bDebug = true;
-			}
-			LocalStorageHandler.init(_bDebug);
-			FileHandler.init(_bDebug);
-			VizHandler.init(_bDebug);
-			Utils.init(_bDebug);
-			_log("module initialized");
-		},
-
-		loadFromLocalStorage: () => {
+		const _loadFromLocalStorage = () => {
 			_oData = LocalStorageHandler.readData();
 			_buildTable();
-		},
+		};
 
-		saveToLocalStorage: () => {
+		const _saveToLocalStorage = () => {
 			LocalStorageHandler.writeData(_oData);
-		},
+		};
 
-		importJSON: () => {
-			FileHandler.openFile().then(function (sData) {
+		const _importJSON = () => {
+			FileHandler.openFile().then(sData => {
 				_oData = LocalStorageHandler.importData(sData);
 				_buildTable();
-			}.bind(this));
-		},
+			});
+		};
 
-		exportJSON: () => {
-			var sData = LocalStorageHandler.exportData(_oData);
+		const _exportJSON = () => {
+			const sData = LocalStorageHandler.exportData(_oData);
 			FileHandler.saveFile("Data.json", sData);
-		},
+		};
 
-		readOData: () => {
+		const _readOData = () => {
 			console.log(_oData);
-		}
-	};
-}());
+		};
+
+		return {
+			init: (debug) => {
+				if (debug) {
+					_bDebug = true;
+				}
+				LocalStorageHandler.init(_bDebug);
+				FileHandler.init(_bDebug);
+				VizHandler.init(_bDebug);
+				Utils.init(_bDebug);
+				_log("module initialized");
+			},
+
+			loadFromLocalStorage: () => {
+				return _loadFromLocalStorage();
+			},
+
+			saveToLocalStorage: () => {
+				return _saveToLocalStorage();
+			},
+
+			importJSON: () => {
+				return _importJSON();
+			},
+
+			exportJSON: () => {
+				return _exportJSON();
+			},
+
+			readOData: () => {
+				return _readOData();
+			}
+		};
+	})();
+});

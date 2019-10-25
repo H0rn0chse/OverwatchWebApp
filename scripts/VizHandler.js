@@ -1,26 +1,29 @@
-var VizHandler = (function () {
-	'use strict';
-	var MODULE_NAME = "VizHandler"
-	var _bDebug = false;
+'use strict';
+Promise.all([
+	Promise.resolve()
+]).then(function () {
+	window.VizHandler = (() => {
+		'use strict';
+		const MODULE_NAME = "VizHandler"
+		let _bDebug = false;
 
-	function _log (sMsg) {
-		if (_bDebug) {
-			console.log(sMsg, MODULE_NAME);
-		}
-	}
-
-	return {
-		init: (debug) => {
-			if (debug) {
-				_bDebug = true;
+		const _log = sMsg => {
+			if (_bDebug) {
+				console.log(sMsg, MODULE_NAME);
 			}
+		};
 
-			_log("module initialized");
-		},
+		return {
+			init: (debug) => {
+				if (debug) {
+					_bDebug = true;
+				}
 
-		createViz: () => {
-			_log("createViz started");
-			_log("createViz successfull");
-		}
-	};
-}());
+				_log("module initialized");
+			},
+
+			createViz: () => {
+			}
+		};
+	})();
+});

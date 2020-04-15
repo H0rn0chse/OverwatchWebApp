@@ -1,0 +1,44 @@
+div.left {
+	float: left;
+	width: 30%;
+	height: 90vh;
+	overflow: auto;
+}
+
+div.right {
+	float: right;
+	width: 70%;
+	height: 90vh;
+	overflow: auto;
+}
+
+body {
+	overflow: hidden;
+	clear:both;
+}
+
+th {
+	position: sticky;
+	top: 0;
+	background: white;
+}
+
+td.session, td.session * {
+	width: 50px;
+	text-align: center;
+}
+
+td.sr, td.sr * {
+	width: 80px;
+	text-align: center;
+}
+
+td.size, td.size * {
+	width: 50px;
+	text-align: center;
+}
+
+td.season, td.season * {
+	width: 50px;
+	text-align: center;
+}

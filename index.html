@@ -1,48 +1,57 @@
 <!DOCTYPE html>
-<head>
-	<meta charset="utf-8">
-	<title>OverwatchWebApp</title>
-
-	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-	<link rel="stylesheet" href="css/index.css">
-	<link rel="stylesheet" href="css/Data.css">
-	<link rel="stylesheet" href="css/Analysis.css">
-	<link rel="stylesheet" href="css/Settings.css">
-
-	<script type="text/javascript" src="scripts/load.js"></script>
-	<script type="text/javascript" src="scripts/index.js"></script>
-</head>
-<body>
-	<header>
-		<h1>OverwatchWebApp</h1>
-	</header>
-	<nav>
-		<div class="tab">
-			<button class="tablinks" onclick="openTab(event, 'Data')" id="defaultOpen">Data</button>
-			<button class="tablinks" onclick="openTab(event, 'Analysis')">Analysis</button>
-			<button class="tablinks" onclick="openTab(event, 'Settings')">Settings</button>
+<html lang="de">
+	<head>
+		<meta charset="utf-8">
+		<title>OverwatchWebApp</title>
+		<script src="https://d3js.org/d3.v5.min.js"></script>
+		<script src="/scripts/script.js"></script>
+		<script src="/scripts/table.js"></script>
+		<script src="/scripts/stats.js"></script>
+		<script src="/scripts/graphs.js"></script>
+		<link rel="stylesheet" href="/styles/style.css">
+	</head>
+	<body>
+		<div class="left">
+			<table id="entries">
+				<thead>
+					<tr>
+						<th>Session</th>
+						<th>SR</th>
+						<th>Rolle</th>
+						<th>Teamgröße</th>
+						<th>W/L/D</th>
+						<th>Season</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
 		</div>
-	</nav>
-	<section id="Data" class="tabcontent">
-		<nav>
-			<div>
-				<button onclick="Manager.loadFromLocalStorage()">load from localStorage</button>
-				<button onclick="Manager.saveToLocalStorage()">save to localStorage</button>
-				<button onclick="Manager.importJSON()">import from JSON</button>
-				<button onclick="Manager.exportJSON()">export to JSON</button>
+		<div class="right">
+			<button onclick="updateStats()">Update</button>
+			<div id="selectors">
+				<span>Season</span>
+				<select class="season">
+					<option value="All">All</option>
+					<option value="21">S21</option>
+				</select>
+				<span>Rolle</span>
+				<select class="role">
+					<option value="All">All</option>
+					<option value="Tank">Tank</option>
+					<option value="DPS">DPS</option>
+					<option value="Support">Support</option>
+				</select>
 			</div>
-		</nav>
-	</section>
-		
-	<section id="Analysis" class="tabcontent">
-		<h3>Analysis</h3>
-	</section>
-		
-	<section id="Settings" class="tabcontent">
-		<h3>Settings</h3>
-	</section>
-	<footer>
-		<a href="https://www.github.com/H0rn0chse" target="_blank">My Github Profile</a>
-	</footer>
-	<div id="hidden"></div>
-</body>
+			<div id="stats"></div>
+			<div id="graphs">
+				<div id="winRate" class="smallGraph">
+				</div>
+			</div>
+		</div>
+		<div>
+			<button onclick="addRow()">Neuer Eintrag</button>
+		</div>
+	</body>
+</html>

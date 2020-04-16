@@ -12,10 +12,6 @@ function PieChart (data, width) {
 		.innerRadius(radius)
 		.outerRadius(radius);
 
-	const color = d3.scaleOrdinal()
-		.domain(data.map(d => d.name))
-		.range(d3.quantize(t => d3.interpolateSpectral(t * 0.8 + 0.1), data.length).reverse())
-
 	const arcs = pie(data);
 
 	const svg = d3.create("svg")
@@ -96,9 +92,6 @@ function GroupedBarChart (data, midpoint, width, height) {
 		.domain([0, d3.max(data, d => d3.max(keys, key => d[key]))]).nice()
 		.rangeRound([height - margin.bottom, margin.top]);
 
-	const color = d3.scaleOrdinal()
-    	.range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
-
 	const xAxis = g => g
 		.attr("transform", `translate(0,${height - margin.bottom})`)
 		.call(d3.axisBottom(x0).tickSizeOuter(0))
@@ -115,7 +108,6 @@ function GroupedBarChart (data, midpoint, width, height) {
 			.text(data.y))
 
 	const svg = d3.create("svg")
-		//.attr("viewBox", [-width / 2, -height / 2, width, height]);//d3.select(DOM.svg(width, height));
 
 	svg.append("g")
 		.selectAll("g")

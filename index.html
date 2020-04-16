@@ -29,25 +29,19 @@
 			</table>
 		</div>
 		<div class="right">
-			<button onclick="updateStats()">Update</button>
-			<div id="selectors">
-				<span>Season</span>
-				<select class="season">
-					<option value="All">All</option>
-					<option value="21">S21</option>
-				</select>
+			<div id="graphs">
+				<div id="winRate" class="smallGraph">
+				</div>
+			</div>
+			<div id="stats">
 				<span>Rolle</span>
-				<select class="role">
+				<select class="role" onchange="updateTable()">
 					<option value="All">All</option>
 					<option value="Tank">Tank</option>
 					<option value="DPS">DPS</option>
 					<option value="Support">Support</option>
 				</select>
-			</div>
-			<div id="stats"></div>
-			<div id="graphs">
-				<div id="winRate" class="smallGraph">
-				</div>
+				<div class="table"></div>
 			</div>
 		</div>
 		<div>

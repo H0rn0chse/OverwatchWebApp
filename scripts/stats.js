@@ -1,6 +1,56 @@
 function updateStats () {
 	drawGroupedBarChart();
+	updateTable();
 	//drawPieChart();
+}
+
+function updateTable() {
+	colors = {
+		"Tank": "#4682B4",
+		"DPS": "#FF7F50",
+		"Support": "#ADFF2F",
+	}
+	const count = 10;
+	const container = document.getElementById("stats");
+	const table = container.querySelector("div.table");
+	table.innerHTML = "";
+	role = container.querySelector("select.role").value;
+
+	const entries = getEnhancedEntries()
+		.filter(item => {
+			if (role == "All") {
+				return true;
+			}
+			return item.role == role;
+		});
+
+	const lastEntries = entries.splice(entries.length-count, count);
+	lastEntries.forEach(entry => {
+		let row = document.createElement("p");
+		table.appendChild(row);
+		const dSpan = document.createElement("span");
+		row.appendChild(dSpan);
+		dSpan.innerText = entry.diff;
+		dSpan.style.width = "30px";
+		dSpan.style.display = "inline-block";
+		dSpan.style.textAlign = "right";
+		const rSpan = document.createElement("span");
+		row.appendChild(rSpan);
+		rSpan.innerText = entry.role;
+		rSpan.style.width = "70px";
+		rSpan.style.display = "inline-block";
+		rSpan.style.marginLeft = "5px";
+		const cSpan = document.createElement("span");
+		row.appendChild(cSpan);
+		cSpan.style.width = "20px";
+		cSpan.style.height = "20px";
+		cSpan.style.display = "inline-block";
+		cSpan.style.backgroundColor = "rgb(70, 130, 180)";
+		cSpan.style.marginLeft = "5px";
+		cSpan.style.position = "relative";
+		cSpan.style.top = "5px";
+		cSpan.style.backgroundColor = colors[entry.role];
+	});
 }
 
 function drawGroupedBarChart () {
@@ -24,13 +74,13 @@ function drawGroupedBarChart () {
 	data.y = "Winrate"
 	roles.forEach(role => {
 		let stats = calcStats(role);
-		data[0][role] = stats.winRate * 100;
-		data[1][role] = stats.winRateGroup[1] * 100;
-		data[2][role] = stats.winRateGroup[2] * 100;
-		data[3][role] = stats.winRateGroup[3] * 100;
-		data[4][role] = stats.winRateGroup[4] * 100;
-		data[5][role] = stats.winRateGroup[5] * 100;
-		data[6][role] = stats.winRateGroup[6] * 100;
+		data[0][role] = stats.winRate * 100 || 0;
+		data[1][role] = stats.winRateGroup[1] * 100 || 0;
+		data[2][role] = stats.winRateGroup[2] * 100 || 0;
+		data[3][role] = stats.winRateGroup[3] * 100 || 0;
+		data[4][role] = stats.winRateGroup[4] * 100 || 0;
+		data[5][role] = stats.winRateGroup[5] * 100 || 0;
+		data[6][role] = stats.winRateGroup[6] * 100 || 0;
 	});
 
 	let node = GroupedBarChart(data, 50, 500, 200);
@@ -133,6 +183,7 @@ function calcStats (role) {
 		
 	});
 	const stats = {
+		enhancedEntries: entries,
 		gamesPlayed: entries.length,
 		gamesPlayedGroup: entries.reduce((acc, val) => {
 			acc[val.size - 1] += 1;
@@ -217,7 +268,8 @@ function calcStats (role) {
 			return acc;
 		}, [0, 0])[1]
 	}
-	stats.currentSr = entries[entries.length - 1].sr;
+	const lastEntry = entries[entries.length - 1] || {};
+	stats.currentSr = lastEntry.sr || 0;
 	stats.srGain = stats.currentSr - stats.placementSR;
 	stats.winRate = stats.win / stats.gamesPlayed;
 	stats.winRateGroup = {
@@ -256,8 +308,27 @@ function calcStats (role) {
 	return stats;
 }
 
+function getEnhancedEntries () {
+	const roles = ["Tank", "DPS", "Support"];
+	const entries = roles
+		.reduce((acc, role) => {
+			return [...acc, ...calcStats(role).enhancedEntries];
+		}, [])
+		.sort((a, b) => {
+			if (a.sortId > b.sortId) return 1;
+			if (b.sortId > a.sortId) return -1;
+			return 0;
+		});
+	return entries;
+}
+
 function getEntries (role) {
-	return JSON.parse(JSON.stringify(items)).filter(item => {
-		return item.role == role;
-	});
+	return JSON.parse(JSON.stringify(items))
+		.map((item, index) => {
+			item.sortId = index;
+			return item;
+		})
+		.filter(item => {
+			return item.role == role;
+		});
 }

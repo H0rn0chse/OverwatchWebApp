@@ -3,11 +3,14 @@ window.onload = () => {
 	items = JSON.parse(localStorage.getItem("items"));
 	if (!items) {
 		items = [];
-		saveItems();
+		addRow();
+	} else {
+		items.forEach(item => {
+			addRow(item);
+		});
 	}
-	items.forEach(item => {
-		addRow(item);
-	});
+	
+	updateStats();
 }
 
 function saveItems () {

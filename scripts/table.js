@@ -45,7 +45,7 @@ function addRow (item) {
 	roles.forEach(role => {
 		const roleOption = document.createElement("option");
 		roleDropdown.appendChild(roleOption);
-		roleOption.setAttribute("label", role);
+		roleOption.innerText = role;
 		roleOption.setAttribute("value", role);
 	});
 	roleDropdown.value = item.role;
@@ -69,7 +69,7 @@ function addRow (item) {
 	wld.forEach(wld => {
 		const wldOption = document.createElement("option");
 		wldDropdown.appendChild(wldOption);
-		wldOption.setAttribute("label", wld);
+		wldOption.innerText = wld;
 		wldOption.setAttribute("value", wld);
 	});
 	wldDropdown.value = item.wld;

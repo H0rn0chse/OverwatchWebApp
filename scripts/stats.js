@@ -23,7 +23,7 @@ function updateSession () {
 	const currentRow = document.createElement("p");
 	container.appendChild(currentRow);
 	const currentAverage = Math.round(stats.current.reduce((acc, val) => { return acc += parseInt(val, 10)}, 0) / stats.current.length);
-	currentRow.innerHTML = `<b>Start:</b> T:${stats.current[0]}&nbsp;&nbsp;D:${stats.current[1]}&nbsp;&nbsp;S:${stats.current[2]}&nbsp;&nbsp;(${currentAverage})`;
+	currentRow.innerHTML = `<b>Aktuell:</b> T:${stats.current[0]}&nbsp;&nbsp;D:${stats.current[1]}&nbsp;&nbsp;S:${stats.current[2]}&nbsp;&nbsp;(${currentAverage})`;
 
 	const standingsRow = document.createElement("p");
 	container.appendChild(standingsRow);

@@ -1,7 +1,33 @@
 function updateStats () {
 	drawGroupedBarChart();
 	updateTable();
+	updateSession();
 	//drawPieChart();
+}
+
+function updateSession () {
+	const container = document.getElementById("session");
+	container.innerHTML = "";
+
+	const stats = getSessionStats();
+
+	const heading = document.createElement("h2");
+	container.appendChild(heading);
+	heading.innerText = "aktuelle Session";
+
+	const startRow = document.createElement("p");
+	container.appendChild(startRow);
+	const startAverage = Math.round(stats.start.reduce((acc, val) => { return acc += parseInt(val, 10)}, 0) / stats.start.length);
+	startRow.innerHTML = `<b>Start:</b> T:${stats.start[0]}&nbsp;&nbsp;D:${stats.start[1]}&nbsp;&nbsp;S:${stats.start[2]}&nbsp;&nbsp;(${startAverage})`;
+
+	const currentRow = document.createElement("p");
+	container.appendChild(currentRow);
+	const currentAverage = Math.round(stats.current.reduce((acc, val) => { return acc += parseInt(val, 10)}, 0) / stats.current.length);
+	currentRow.innerHTML = `<b>Start:</b> T:${stats.current[0]}&nbsp;&nbsp;D:${stats.current[1]}&nbsp;&nbsp;S:${stats.current[2]}&nbsp;&nbsp;(${currentAverage})`;
+
+	const standingsRow = document.createElement("p");
+	container.appendChild(standingsRow);
+	standingsRow.innerHTML = `<b>Ergebnis:</b> ${stats.wld[0]}W / ${stats.wld[1]}L / ${stats.wld[2]}D`;
 }
 
 function updateTable() {
@@ -10,7 +36,6 @@ function updateTable() {
 		"DPS": "#FF7F50",
 		"Support": "#ADFF2F",
 	}
-	const count = 10;
 	const container = document.getElementById("stats");
 	const table = container.querySelector("div.table");
 	table.innerHTML = "";
@@ -23,6 +48,7 @@ function updateTable() {
 			}
 			return item.role == role;
 		});
+	const count = entries.length < 10 ? entries.length : 10;
 
 	const lastEntries = entries.splice(entries.length-count, count);
 	lastEntries.forEach(entry => {
@@ -198,16 +224,10 @@ function calcStats (role) {
 			}
 		}, null),
 		seasonHigh: entries.reduce((acc, val) => {
-			if (val.sr > acc) {
-				return val.sr;
-			}
-			return acc;
+			return val.sr > acc ? val.sr : acc;
 		}, 0),
 		seasonLow: entries.reduce((acc, val) => {
-			if (val.sr < acc && val.sr > 0) {
-				return val.sr;
-			}
-			return acc;
+			return val.sr < acc && val.sr > 0 ? val.sr : acc;
 		}, 5000),
 		win: entries.reduce((acc, val) => {
 			if (val.wld == "Win") {
@@ -266,7 +286,44 @@ function calcStats (role) {
 				acc[1] = acc[0];
 			}
 			return acc;
-		}, [0, 0])[1]
+		}, [0, 0])[1],
+		sessionStart: (() => {
+			currentSession = getCurrentSession() - 1;
+			return entries.reduce((acc, val) => {
+				if (val.session == currentSession) {
+					return val.sr;
+				}
+				return acc;
+			}, null);
+		})(),
+		sessionCurrent: (() => {
+			currentSession = getCurrentSession();
+			return entries.reduce((acc, val) => {
+				if (val.session == currentSession) {
+					return val.sr;
+				}
+				return acc;
+			}, null);
+		})(),
+		sessionWld: (() => {
+			currentSession = getCurrentSession();
+			return entries.reduce((acc, val) => {
+				if (val.session == currentSession) {
+					switch (val.wld) {
+						case "Win":
+							acc[0] += 1;
+							break;
+						case "Loss":
+							acc[1] += 1;
+							break;
+						case "Draw":
+							acc[2] += 1;
+							break;
+					}
+				}
+				return acc;
+			}, [0, 0, 0]);
+		})()
 	}
 	const lastEntry = entries[entries.length - 1] || {};
 	stats.currentSr = lastEntry.sr || 0;
@@ -305,6 +362,14 @@ function calcStats (role) {
 	}, [0, 0]);
 	stats.avgSr = stats.avgSr[0] / stats.avgSr[1];
 
+	if (stats.sessionCurrent == null) {
+		stats.sessionStart = stats.currentSr;
+		stats.sessionCurrent = stats.currentSr;
+	}
+	if (stats.sessionStart == null) {
+		stats.sessionStart = 0;
+	}
+
 	return stats;
 }
 
@@ -320,6 +385,32 @@ function getEnhancedEntries () {
 			return 0;
 		});
 	return entries;
+}
+
+function getCurrentSession () {
+	return JSON.parse(JSON.stringify(items)).reduce((acc, val) => {
+		return acc > parseInt(val.session, 10) ? acc : val.session;
+	}, 0);
+}
+
+function getSessionStats () {
+	const roles = ["Tank", "DPS", "Support"];
+	const sessionStats = {
+		start: [0, 0, 0],
+		current: [0, 0, 0],
+		wld: [0, 0, 0]
+	}
+	roles.forEach((role, index) => {
+		roleStats = calcStats(role);
+
+		sessionStats.start[index] = roleStats.sessionStart;
+		sessionStats.current[index] = roleStats.sessionCurrent;
+		sessionStats.wld[0] += roleStats.sessionWld[0];
+		sessionStats.wld[1] += roleStats.sessionWld[1];
+		sessionStats.wld[2] += roleStats.sessionWld[2];
+	})
+	
+	return sessionStats;
 }
 
 function getEntries (role) {

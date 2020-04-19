@@ -43,7 +43,7 @@ td.season, td.season * {
 	text-align: center;
 }
 
-#stats, #stats .table {
+#stats, #stats .table, #session {
 	margin-left: 50px;
-    margin-top: 30px;
+    margin-top: 20px;
 }

@@ -1,3 +1,14 @@
+:root {
+    --background: #e4e4e4;
+    --color: #444;
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+		--background: #444;
+		--color: #e4e4e4;
+    }
+}
+
 div.left {
 	float: left;
 	width: 30%;
@@ -15,12 +26,14 @@ div.right {
 body {
 	overflow: hidden;
 	clear:both;
+	background-color: var(--background);
+	color: var(--color);
 }
 
 th {
 	position: sticky;
 	top: 0;
-	background: white;
+	background: var(--background);
 }
 
 td.session, td.session * {
@@ -46,4 +59,17 @@ td.season, td.season * {
 #stats, #stats .table, #session {
 	margin-left: 50px;
     margin-top: 20px;
+}
+
+input, select {
+	background-color: var(--background);
+	color: var(--color);
+	border-color: var(--color);
+	border-style: ridge;
+	border-width: 1px;
+}
+
+button {
+	background-color: var(--background);
+	color: var(--color);
 }

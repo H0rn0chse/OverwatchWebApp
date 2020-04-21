@@ -53,6 +53,7 @@ function GroupedBarChart (data, midpoint, width, height) {
 
 	const groupKey = data.columns[0];
 	const keys = data.columns.slice(1);
+	const fontColor = getComputedStyle(document.body).getPropertyValue('--color');
 
 	legend = svg => {
 		const g = svg
@@ -60,6 +61,7 @@ function GroupedBarChart (data, midpoint, width, height) {
 				.attr("text-anchor", "end")
 				.attr("font-family", "sans-serif")
 				.attr("font-size", 10)
+				.attr("fill", fontColor)
 			.selectAll("g")
 			.data(data.columns.filter((d,i) => i > 0))
 			.join("g")
@@ -105,6 +107,7 @@ function GroupedBarChart (data, midpoint, width, height) {
 			.attr("x", 3)
 			.attr("text-anchor", "start")
 			.attr("font-weight", "bold")
+			.attr("fill", fontColor)
 			.text(data.y))
 
 	const svg = d3.create("svg")

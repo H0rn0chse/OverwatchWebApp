@@ -54,6 +54,7 @@ function GroupedBarChart (data, midpoint, width, height) {
 	const groupKey = data.columns[0];
 	const keys = data.columns.slice(1);
 	const fontColor = getComputedStyle(document.body).getPropertyValue('--color');
+	const backgroundColor = getComputedStyle(document.body).getPropertyValue('--background');
 
 	legend = svg => {
 		const g = svg
@@ -79,6 +80,16 @@ function GroupedBarChart (data, midpoint, width, height) {
 			.attr("dy", "0.35em")
 			.text(d => d);
 	}
+
+	const tooltip = d3.select("body")
+		.append("div")
+		.style("position", "absolute")
+		.style("z-index", "10")
+		.style("visibility", "hidden")
+		.style("background", backgroundColor)
+		.style("padding", "2px 4px")
+		.style("border-radius", "25px");
+
 
 	const x0 = d3.scaleBand()
 		.domain(data.map(d => d[groupKey]))
@@ -124,7 +135,21 @@ function GroupedBarChart (data, midpoint, width, height) {
 			.attr("y", d => {return d.value < midpoint ?  y(midpoint) : y(d.value)})
 			.attr("width", x1.bandwidth())
 			.attr("height", d => {return d.value < midpoint ? y(d.value) - y(midpoint) : y(midpoint) - y(d.value)})
-			.attr("fill", d => d3.rgb(data.colors[d.key]));
+			.attr("fill", d => d3.rgb(data.colors[d.key]))
+			.on("mouseover", d => {
+				return tooltip
+					.style("visibility", "visible")
+					.text(d.value.toFixed(2).replace(/\.?0*$/,''));
+			})
+			.on("mousemove", () => {
+				return tooltip
+					.style("top", (d3.event.pageY-10)+"px")
+					.style("left",(d3.event.pageX+10)+"px");
+			})
+			.on("mouseout", () => {
+				return tooltip
+					.style("visibility", "hidden");
+			});
 
 	svg.append("g")
 			.call(xAxis);

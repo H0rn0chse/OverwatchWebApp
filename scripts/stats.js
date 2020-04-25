@@ -290,7 +290,7 @@ function calcStats (role) {
 		sessionStart: (() => {
 			currentSession = getCurrentSession() - 1;
 			return entries.reduce((acc, val) => {
-				if (val.session == currentSession) {
+				if (val.session <= currentSession) {
 					return val.sr;
 				}
 				return acc;

@@ -139,9 +139,11 @@ function GroupedBarChart (data, midpoint, width, height) {
 				return d.value === null ? null : d3.rgb(data.colors[d.key]);
 			})
 			.on("mouseover", d => {
-				return tooltip
-					.style("visibility", "visible")
-					.text(d.value.toFixed(2).replace(/\.?0*$/,''));
+				if (d.value !== null) {
+					return tooltip
+						.style("visibility", "visible")
+						.text(d.value.toFixed(2).replace(/\.?0*$/,''));
+				}
 			})
 			.on("mousemove", () => {
 				return tooltip

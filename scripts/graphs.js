@@ -102,7 +102,7 @@ function GroupedBarChart (data, midpoint, width, height) {
 		.padding(0.05);
 
 	const y = d3.scaleLinear()
-		.domain([0, d3.max(data, d => d3.max(keys, key => d[key]))]).nice()
+		.domain(data.range || [0, d3.max(data, d => d3.max(keys, key => d[key]))]).nice()
 		.rangeRound([height - margin.bottom, margin.top]);
 
 	const xAxis = g => g
@@ -135,7 +135,9 @@ function GroupedBarChart (data, midpoint, width, height) {
 			.attr("y", d => {return d.value < midpoint ?  y(midpoint) : y(d.value)})
 			.attr("width", x1.bandwidth())
 			.attr("height", d => {return d.value < midpoint ? y(d.value) - y(midpoint) : y(midpoint) - y(d.value)})
-			.attr("fill", d => d3.rgb(data.colors[d.key]))
+			.attr("fill", d => {
+				return d.value === null ? null : d3.rgb(data.colors[d.key]);
+			})
 			.on("mouseover", d => {
 				return tooltip
 					.style("visibility", "visible")

@@ -126,14 +126,15 @@ function drawGroupedBarChart () {
 	data.y = "Winrate"
 	roles.forEach(role => {
 		let stats = calcStats(role, season);
-		data[0][role] = stats.winRate * 100 || 0;
-		data[1][role] = stats.winRateGroup[1] * 100 || 0;
-		data[2][role] = stats.winRateGroup[2] * 100 || 0;
-		data[3][role] = stats.winRateGroup[3] * 100 || 0;
-		data[4][role] = stats.winRateGroup[4] * 100 || 0;
-		data[5][role] = stats.winRateGroup[5] * 100 || 0;
-		data[6][role] = stats.winRateGroup[6] * 100 || 0;
+		data[0][role] = stats.gamesPlayed ? stats.winRate * 100 : null;
+		data[1][role] = stats.gamesPlayedGroup[1] ? stats.winRateGroup[1] * 100 : null;
+		data[2][role] = stats.gamesPlayedGroup[2] ? stats.winRateGroup[2] * 100 : null;
+		data[3][role] = stats.gamesPlayedGroup[3] ? stats.winRateGroup[3] * 100 : null;
+		data[4][role] = stats.gamesPlayedGroup[4] ? stats.winRateGroup[4] * 100 : null;
+		data[5][role] = stats.gamesPlayedGroup[5] ? stats.winRateGroup[5] * 100 : null;
+		data[6][role] = stats.gamesPlayedGroup[6] ? stats.winRateGroup[6] * 100 : null;
 	});
+	data.range = [0, 100];
 
 	let node = GroupedBarChart(data, 50, 500, 200);
 	node.style.width = "500px";

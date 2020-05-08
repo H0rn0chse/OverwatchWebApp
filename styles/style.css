@@ -9,16 +9,9 @@
     }
 }
 
-div.left {
+.left {
 	float: left;
 	width: 30%;
-	height: 90vh;
-	overflow: auto;
-}
-
-div.right {
-	float: right;
-	width: 70%;
 	height: 90vh;
 	overflow: auto;
 }
@@ -56,7 +49,7 @@ td.season, td.season * {
 	text-align: center;
 }
 
-#stats, #stats .table, #session {
+#stats, #stats .table, #lastSession {
 	margin-left: 50px;
     margin-top: 20px;
 }
@@ -72,4 +65,8 @@ input, select {
 button {
 	background-color: var(--background);
 	color: var(--color);
+}
+
+svg {
+	padding: 2em;
 }

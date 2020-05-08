@@ -28,12 +28,8 @@
 				</tbody>
 			</table>
 		</div>
-		<div class="right">
-			<div id="graphs">
-				<div id="winRate" class="smallGraph">
-				</div>
-			</div>
-			<div id="session">
+		<div class="left">
+			<div id="lastSession">
 			</div>
 			<div id="stats">
 				<h2>letzten 10 Spiele</h2>
@@ -47,6 +43,15 @@
 				<div class="table"></div>
 			</div>
 		</div>
+		<div class="left">
+			<select class="season" onchange="updateSeasonStats()">
+			</select>
+			<div id="graphs">
+				<div id="winRate" class="smallGraph">
+				</div>
+			</div>
+		</div>
+		<br style="clear: left;" />
 		<div>
 			<button onclick="addRow()">Neuer Eintrag</button>
 		</div>

@@ -1,12 +1,36 @@
 function updateStats () {
+	updateSeasonSelect();
 	drawGroupedBarChart();
 	updateTable();
 	updateSession();
 	//drawPieChart();
 }
 
+function updateSeasonStats () {
+	drawGroupedBarChart();
+}
+
+function updateSeasonSelect () {
+	const container = document.querySelector("select.season");
+	container.innerHTML = "";
+
+	const entries = getEnhancedEntries();
+	let seasons = entries.map(e => e.season);
+	seasons = [...new Set(seasons)]
+	seasons.splice(0, 0, "All");
+
+	seasons.forEach(s => {
+		const option = document.createElement("option");
+		container.appendChild(option);
+		option.innerText = "S" + s;
+		option.setAttribute("value", s);
+	});
+
+	container.value = seasons[seasons.length - 1];
+}
+
 function updateSession () {
-	const container = document.getElementById("session");
+	const container = document.getElementById("lastSession");
 	container.innerHTML = "";
 
 	const stats = getSessionStats();
@@ -30,7 +54,7 @@ function updateSession () {
 	standingsRow.innerHTML = `<b>Ergebnis:</b> ${stats.wld[0]}W / ${stats.wld[1]}L / ${stats.wld[2]}D`;
 }
 
-function updateTable() {
+function updateTable () {
 	colors = {
 		"Tank": "#4682B4",
 		"DPS": "#FF7F50",
@@ -80,7 +104,9 @@ function updateTable() {
 }
 
 function drawGroupedBarChart () {
-	document.querySelector("#winRate").innerHTML = "";
+	document.getElementById("winRate").innerHTML = "";
+	const season = document.querySelector("select.season").value;
+
 	const roles = ["Tank", "DPS", "Support"];
 	let data = [
 		{"groupSize": "Overall", "Tank": 0, "DPS": 0, "Support": 0},
@@ -99,7 +125,7 @@ function drawGroupedBarChart () {
 	};
 	data.y = "Winrate"
 	roles.forEach(role => {
-		let stats = calcStats(role);
+		let stats = calcStats(role, season);
 		data[0][role] = stats.winRate * 100 || 0;
 		data[1][role] = stats.winRateGroup[1] * 100 || 0;
 		data[2][role] = stats.winRateGroup[2] * 100 || 0;
@@ -131,7 +157,7 @@ function drawGroupedBarChart () {
 	};
 	data.y = "gamesPlayed"
 	roles.forEach(role => {
-		let stats = calcStats(role);
+		let stats = calcStats(role, season);
 		data[0][role] = stats.gamesPlayed;
 		data[1][role] = stats.gamesPlayedGroup[0];
 		data[2][role] = stats.gamesPlayedGroup[1];
@@ -188,8 +214,13 @@ function drawPieChart () {
 	});
 }
 
-function calcStats (role) {
-	const entries = getEntries(role);
+function calcStats (role, season = "All") {
+	let entries = getEntries(role);
+	if (season != "All") {
+		entries = entries.filter(e => {
+			return e.season == season
+		});
+	}
 	entries.forEach((entry, i) => {
 		const lastEntry = entries[i-1] || {}
 		if (entry.wld == "default") {

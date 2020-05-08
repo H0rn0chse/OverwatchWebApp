@@ -22,7 +22,7 @@ function updateSeasonSelect () {
 	seasons.forEach(s => {
 		const option = document.createElement("option");
 		container.appendChild(option);
-		option.innerText = "S" + s;
+		option.innerText = s == "All" ? s : "S" + s;
 		option.setAttribute("value", s);
 	});
 

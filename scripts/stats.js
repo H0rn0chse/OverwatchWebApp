@@ -269,11 +269,11 @@ function getSeasonStats () {
 		roleStats = calcStats(role, season);
 
 		seasonStats.srGain[index] = roleStats.srAvg || 0
-		seasonStats.srGain[index].toFixed(2);
+		seasonStats.srGain[index] = seasonStats.srGain[index].toFixed(2);
 		seasonStats.srLoss[index] = roleStats.srLoss || 0;
-		seasonStats.srLoss[index].toFixed(2);
+		seasonStats.srLoss[index] = seasonStats.srLoss[index].toFixed(2);
 		seasonStats.srWin[index] = roleStats.srWin || 0;
-		seasonStats.srWin[index].toFixed(2);
+		seasonStats.srWin[index] = seasonStats.srWin[index].toFixed(2);
 	});
 	
 	return seasonStats;

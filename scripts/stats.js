@@ -268,9 +268,12 @@ function getSeasonStats () {
 	roles.forEach((role, index) => {
 		roleStats = calcStats(role, season);
 
-		seasonStats.srGain[index] = roleStats.srAvg.toFixed(2);
-		seasonStats.srLoss[index] = roleStats.srLoss.toFixed(2);
-		seasonStats.srWin[index] = roleStats.srWin.toFixed(2);
+		seasonStats.srGain[index] = roleStats.srAvg || 0
+		seasonStats.srGain[index].toFixed(2);
+		seasonStats.srLoss[index] = roleStats.srLoss || 0;
+		seasonStats.srLoss[index].toFixed(2);
+		seasonStats.srWin[index] = roleStats.srWin || 0;
+		seasonStats.srWin[index].toFixed(2);
 	});
 	
 	return seasonStats;

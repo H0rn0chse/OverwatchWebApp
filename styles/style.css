@@ -70,3 +70,9 @@ button {
 svg {
 	padding: 2em;
 }
+
+#btnExport {
+	position: absolute;
+	left: 20px;
+	bottom: 20px;
+}

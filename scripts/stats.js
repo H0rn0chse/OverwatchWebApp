@@ -5,6 +5,7 @@ function calcStats (role, season = "All") {
 			return e.season == season
 		});
 	}
+
 	entries.forEach((entry, i) => {
 		const lastEntry = entries[i-1] || {}
 		if (entry.wld == "default") {
@@ -143,7 +144,7 @@ function calcStats (role, season = "All") {
 	const lastEntry = entries[entries.length - 1] || {};
 	stats.currentSr = lastEntry.sr || 0;
 	stats.srGain = stats.currentSr - stats.placementSR;
-	stats.winRate = stats.win / stats.gamesPlayed;
+	stats.winRate = stats.win / (stats.gamesPlayed - stats.draw);
 	stats.winRateGroup = {
 		1: stats.winGroup[1] / (stats.gamesPlayedGroup[1] - stats.drawGroup[1]) || 0,
 		2: stats.winGroup[2] / (stats.gamesPlayedGroup[2] - stats.drawGroup[2]) || 0,

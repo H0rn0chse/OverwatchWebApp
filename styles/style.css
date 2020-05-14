@@ -49,7 +49,7 @@ td.season, td.season * {
 	text-align: center;
 }
 
-#stats, #stats .table, #lastSession {
+#stats, #stats .table, #lastSession, #lastSeason {
 	margin-left: 50px;
     margin-top: 20px;
 }

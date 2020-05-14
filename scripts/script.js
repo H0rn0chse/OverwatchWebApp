@@ -22,6 +22,7 @@ function updateStats () {
 	updateSeasonSelect();
 	drawGroupedBarChart();
 	updateTable();
+	updateSeason();
 	updateSession();
 	//drawPieChart();
 }
@@ -49,29 +50,61 @@ function updateSeasonSelect () {
 	container.value = seasons[seasons.length - 1];
 }
 
+function updateSeason () {
+	const container = document.getElementById("lastSeason");
+	container.innerHTML = "";
+
+	const stats = getSeasonStats();
+
+	let elem;
+	let avg;
+
+	elem = document.createElement("h2");
+	container.appendChild(elem);
+	elem.innerText = "Season " + getCurrentSeason();
+
+	elem = document.createElement("p");
+	container.appendChild(elem);
+	avg = avgArray(stats.srGain, 2);
+	elem.innerHTML = `<b>Average SrGain:</b> T:${stats.srGain[0]}&nbsp;&nbsp;D:${stats.srGain[1]}&nbsp;&nbsp;S:${stats.srGain[2]}&nbsp;&nbsp;(${avg})`;
+
+	elem = document.createElement("p");
+	container.appendChild(elem);
+	avg = avgArray(stats.srLoss, 2);
+	elem.innerHTML = `<b>SrGain per Loss:</b> T:${stats.srLoss[0]}&nbsp;&nbsp;D:${stats.srLoss[1]}&nbsp;&nbsp;S:${stats.srLoss[2]}&nbsp;&nbsp;(${avg})`;
+
+	elem = document.createElement("p");
+	container.appendChild(elem);
+	avg = avgArray(stats.srWin, 2);
+	elem.innerHTML = `<b>SrGain per Win:</b> T:${stats.srWin[0]}&nbsp;&nbsp;D:${stats.srWin[1]}&nbsp;&nbsp;S:${stats.srWin[2]}&nbsp;&nbsp;(${avg})`;
+}
+
 function updateSession () {
 	const container = document.getElementById("lastSession");
 	container.innerHTML = "";
 
 	const stats = getSessionStats();
 
-	const heading = document.createElement("h2");
-	container.appendChild(heading);
-	heading.innerText = "aktuelle Session";
+	let elem;
+	let avg;
 
-	const startRow = document.createElement("p");
-	container.appendChild(startRow);
-	const startAverage = Math.round(stats.start.reduce((acc, val) => { return acc += parseInt(val, 10)}, 0) / stats.start.length);
-	startRow.innerHTML = `<b>Start:</b> T:${stats.start[0]}&nbsp;&nbsp;D:${stats.start[1]}&nbsp;&nbsp;S:${stats.start[2]}&nbsp;&nbsp;(${startAverage})`;
+	elem = document.createElement("h2");
+	container.appendChild(elem);
+	elem.innerText = "aktuelle Session";
 
-	const currentRow = document.createElement("p");
-	container.appendChild(currentRow);
-	const currentAverage = Math.round(stats.current.reduce((acc, val) => { return acc += parseInt(val, 10)}, 0) / stats.current.length);
-	currentRow.innerHTML = `<b>Aktuell:</b> T:${stats.current[0]}&nbsp;&nbsp;D:${stats.current[1]}&nbsp;&nbsp;S:${stats.current[2]}&nbsp;&nbsp;(${currentAverage})`;
+	elem = document.createElement("p");
+	container.appendChild(elem);
+	avg = avgArray(stats.start);
+	elem.innerHTML = `<b>Start:</b> T:${stats.start[0]}&nbsp;&nbsp;D:${stats.start[1]}&nbsp;&nbsp;S:${stats.start[2]}&nbsp;&nbsp;(${avg})`;
 
-	const standingsRow = document.createElement("p");
-	container.appendChild(standingsRow);
-	standingsRow.innerHTML = `<b>Ergebnis:</b> ${stats.wld[0]}W / ${stats.wld[1]}L / ${stats.wld[2]}D`;
+	elem = document.createElement("p");
+	container.appendChild(elem);
+	avg = avgArray(stats.current);
+	elem.innerHTML = `<b>Aktuell:</b> T:${stats.current[0]}&nbsp;&nbsp;D:${stats.current[1]}&nbsp;&nbsp;S:${stats.current[2]}&nbsp;&nbsp;(${avg})`;
+
+	elem = document.createElement("p");
+	container.appendChild(elem);
+	elem.innerHTML = `<b>Ergebnis:</b> ${stats.wld[0]}W / ${stats.wld[1]}L / ${stats.wld[2]}D`;
 }
 
 function updateTable () {

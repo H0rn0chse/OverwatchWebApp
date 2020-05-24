@@ -65,11 +65,6 @@ function updateSeason () {
 
 	elem = document.createElement("p");
 	container.appendChild(elem);
-	avg = avgArray(stats.srGain, 2);
-	elem.innerHTML = `<b>Average SrGain:</b> T:${stats.srGain[0]}&nbsp;&nbsp;D:${stats.srGain[1]}&nbsp;&nbsp;S:${stats.srGain[2]}&nbsp;&nbsp;(${avg})`;
-
-	elem = document.createElement("p");
-	container.appendChild(elem);
 	avg = avgArray(stats.srLoss, 2);
 	elem.innerHTML = `<b>SrGain per Loss:</b> T:${stats.srLoss[0]}&nbsp;&nbsp;D:${stats.srLoss[1]}&nbsp;&nbsp;S:${stats.srLoss[2]}&nbsp;&nbsp;(${avg})`;
 
@@ -86,7 +81,6 @@ function updateSession () {
 	const stats = getSessionStats();
 
 	let elem;
-	let avg;
 
 	elem = document.createElement("h2");
 	container.appendChild(elem);
@@ -94,13 +88,7 @@ function updateSession () {
 
 	elem = document.createElement("p");
 	container.appendChild(elem);
-	avg = avgArray(stats.start);
-	elem.innerHTML = `<b>Start:</b> T:${stats.start[0]}&nbsp;&nbsp;D:${stats.start[1]}&nbsp;&nbsp;S:${stats.start[2]}&nbsp;&nbsp;(${avg})`;
-
-	elem = document.createElement("p");
-	container.appendChild(elem);
-	avg = avgArray(stats.current);
-	elem.innerHTML = `<b>Aktuell:</b> T:${stats.current[0]}&nbsp;&nbsp;D:${stats.current[1]}&nbsp;&nbsp;S:${stats.current[2]}&nbsp;&nbsp;(${avg})`;
+	elem.innerHTML = `<b>SR:</b> T:${stats.gain[0]}&nbsp;&nbsp;D:${stats.gain[1]}&nbsp;&nbsp;S:${stats.gain[2]}&nbsp;&nbsp;(${stats.sum})`;
 
 	elem = document.createElement("p");
 	container.appendChild(elem);

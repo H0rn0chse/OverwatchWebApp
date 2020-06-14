@@ -6,6 +6,14 @@ window.addEventListener("load", () => {
 	window.dirtyState = false;
 });
 
+window.addEventListener("beforeunload", (event) => {
+	if (!getIgnoreDirtyState() && window.dirtyState) {
+		var message = 'You may export the latest changes';
+		event.returnValue = message;
+		return message;
+	}
+});
+
 function rebuildTable () {
 	// clear table
 	document.querySelector("#entries tbody").innerHTML = "";
@@ -22,14 +30,12 @@ function rebuildTable () {
 
 function updateItems (importedItems) {
 	items = importedItems;
-	saveItems(true);
+	saveItems();
 	rebuildTable()
 }
 
-function saveItems (supressDirtyState = false) {
-	if (!supressDirtyState) {
-		window.dirtyState = true;
-	}
+function saveItems () {
+	window.dirtyState = true;
 	localStorage.setItem("items", JSON.stringify(items));
 	updateStats();
 }

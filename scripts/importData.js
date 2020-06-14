@@ -5,6 +5,7 @@ window.addEventListener("load", () => {
 });
 
 function importEntries () {
+	_fileHandler.value = "";
 	_fileHandler.click();
 }
 
@@ -30,8 +31,10 @@ function _handleFileSelect (event) {
 			try {
 				const importedItems = JSON.parse(reader.result);
 				updateItems(importedItems);
+				window.dirtyState = false;
 			}
 			catch (error){
+				console.log(error)
 				// err handling
 			}
 		};

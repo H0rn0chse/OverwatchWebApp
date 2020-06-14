@@ -10,9 +10,11 @@
 		<script src="scripts/graphs.js"></script>
 		<script src="scripts/utils.js"></script>
 		<script src="scripts/exportData.js"></script>
+		<script src="scripts/importData.js"></script>
 		<link rel="stylesheet" href="styles/style.css">
 	</head>
 	<body>
+		<div id="hidden"></div>
 		<div class="left">
 			<table id="entries">
 				<thead>
@@ -60,5 +62,6 @@
 			<button onclick="addRow()">Neuer Eintrag</button>
 		</div>
 		<button id="btnExport" onclick="exportEntries()">Export</button>
+		<button id="btnImport" onclick="importEntries()">Import</button>
 	</body>
 </html>

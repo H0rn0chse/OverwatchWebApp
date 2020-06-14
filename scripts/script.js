@@ -1,6 +1,15 @@
 var items;
-window.onload = () => {
+window.addEventListener("load", () => {
 	items = JSON.parse(localStorage.getItem("items"));
+	rebuildTable()
+	updateStats();
+	window.dirtyState = false;
+});
+
+function rebuildTable () {
+	// clear table
+	document.querySelector("#entries tbody").innerHTML = "";
+
 	if (!items) {
 		items = [];
 		addRow();
@@ -9,11 +18,18 @@ window.onload = () => {
 			addRow(item);
 		});
 	}
-	
-	updateStats();
 }
 
-function saveItems () {
+function updateItems (importedItems) {
+	items = importedItems;
+	saveItems(true);
+	rebuildTable()
+}
+
+function saveItems (supressDirtyState = false) {
+	if (!supressDirtyState) {
+		window.dirtyState = true;
+	}
 	localStorage.setItem("items", JSON.stringify(items));
 	updateStats();
 }

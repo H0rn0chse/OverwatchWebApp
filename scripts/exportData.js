@@ -1,7 +1,7 @@
 function exportEntries () {
 	const text = JSON.stringify(items);
     download(text, 'entries.txt', 'text/plain');
-    window.dirtyState = true;
+    window.dirtyState = false;
 }
 
 function download(content, fileName, contentType) {

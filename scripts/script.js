@@ -234,6 +234,11 @@ function drawCharts () {
 						return label;
 					}
 				}
+			},
+			title: {
+				position: "left",
+				display: true,
+				text: 'Winrate'
 			}
 		}
 	});
@@ -261,6 +266,11 @@ function drawCharts () {
 						stepSize: 1
 					}
 				}]
+			},
+			title: {
+				position: "left",
+				display: true,
+				text: 'Games played'
 			}
 		}
 	});

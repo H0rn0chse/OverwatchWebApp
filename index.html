@@ -3,11 +3,10 @@
 	<head>
 		<meta charset="utf-8">
 		<title>OverwatchWebApp</title>
-		<script src="https://d3js.org/d3.v5.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
 		<script src="scripts/script.js"></script>
 		<script src="scripts/table.js"></script>
 		<script src="scripts/stats.js"></script>
-		<script src="scripts/graphs.js"></script>
 		<script src="scripts/utils.js"></script>
 		<script src="scripts/exportData.js"></script>
 		<script src="scripts/importData.js"></script>
@@ -55,6 +54,8 @@
 			<div id="graphs">
 				<div id="winRate" class="smallGraph">
 				</div>
+				<canvas id="ctxWinRate"></canvas>
+				<canvas id="ctxGames"></canvas>
 			</div>
 		</div>
 		<br style="clear: left;" />

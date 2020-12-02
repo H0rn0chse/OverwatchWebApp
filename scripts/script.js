@@ -1,6 +1,8 @@
 var items;
 window.addEventListener("load", () => {
 	items = JSON.parse(localStorage.getItem("items"));
+	drawCharts();
+	setChartColorScheme(colorSchemeQueryList);
 	rebuildTable()
 	updateStats();
 	window.dirtyState = false;
@@ -13,6 +15,24 @@ window.addEventListener("beforeunload", (event) => {
 		return message;
 	}
 });
+
+const colorSchemeQueryList = window.matchMedia('(prefers-color-scheme: dark)');
+
+function setChartColorScheme (evt) {
+	Chart.defaults.global.defaultFontColor = getComputedStyle(document.body).getPropertyValue('--color');
+
+	if (GamesChart) {
+		GamesChart.update();
+	}
+	if (WinRateChart) {
+		WinRateChart.update();
+	}
+	return false;
+}
+colorSchemeQueryList.addListener(setChartColorScheme);
+
+var GamesChart = null;
+var WinRateChart = null;
 
 function rebuildTable () {
 	// clear table
@@ -46,7 +66,6 @@ function updateStats () {
 	updateTable();
 	updateSeason();
 	updateSession();
-	//drawPieChart();
 }
 
 function updateSeasonStats () {
@@ -166,114 +185,122 @@ function updateTable () {
 	});
 }
 
-function drawGroupedBarChart () {
-	document.getElementById("winRate").innerHTML = "";
-	const season = document.querySelector("select.season").value;
-
-	const roles = ["Tank", "DPS", "Support"];
-	let data = [
-		{"groupSize": "Overall", "Tank": 0, "DPS": 0, "Support": 0},
-		{"groupSize": "1", "Tank": 0, "DPS": 0, "Support": 0},
-		{"groupSize": "2", "Tank": 0, "DPS": 0, "Support": 0},
-		{"groupSize": "3", "Tank": 0, "DPS": 0, "Support": 0},
-		{"groupSize": "4", "Tank": 0, "DPS": 0, "Support": 0},
-		{"groupSize": "5", "Tank": 0, "DPS": 0, "Support": 0},
-		{"groupSize": "6", "Tank": 0, "DPS": 0, "Support": 0}
-	]
-	data.columns = ["groupSize", "Tank", "DPS", "Support"];
-	data.colors = {
-		"Tank": "#4682B4",
-		"DPS": "#FF7F50",
-		"Support": "#ADFF2F",
+/**
+ * To be called initially to create charts and references
+ */
+function drawCharts () {
+	const colors = {
+		Tank: "#4682B4",
+		DPS: "#FF7F50",
+		Support: "#ADFF2F",
 	};
-	data.y = "Winrate"
-	roles.forEach(role => {
-		let stats = calcStats(role, season);
-		data[0][role] = stats.gamesPlayed ? stats.winRate * 100 : null;
-		data[1][role] = stats.gamesPlayedGroup[1] ? stats.winRateGroup[1] * 100 : null;
-		data[2][role] = stats.gamesPlayedGroup[2] ? stats.winRateGroup[2] * 100 : null;
-		data[3][role] = stats.gamesPlayedGroup[3] ? stats.winRateGroup[3] * 100 : null;
-		data[4][role] = stats.gamesPlayedGroup[4] ? stats.winRateGroup[4] * 100 : null;
-		data[5][role] = stats.gamesPlayedGroup[5] ? stats.winRateGroup[5] * 100 : null;
-		data[6][role] = stats.gamesPlayedGroup[6] ? stats.winRateGroup[6] * 100 : null;
-	});
-	data.range = [0, 100];
 
-	let node = GroupedBarChart(data, 50, 500, 200);
-	node.style.width = "500px";
-	node.style.height = "200px";
-	document.querySelector("#winRate").appendChild(node);
-
-	data = [
-		{"groupSize": "Overall", "Tank": 0, "DPS": 0, "Support": 0},
-		{"groupSize": "1", "Tank": 0, "DPS": 0, "Support": 0},
-		{"groupSize": "2", "Tank": 0, "DPS": 0, "Support": 0},
-		{"groupSize": "3", "Tank": 0, "DPS": 0, "Support": 0},
-		{"groupSize": "4", "Tank": 0, "DPS": 0, "Support": 0},
-		{"groupSize": "5", "Tank": 0, "DPS": 0, "Support": 0},
-		{"groupSize": "6", "Tank": 0, "DPS": 0, "Support": 0}
-	]
-	data.columns = ["groupSize", "Tank", "DPS", "Support"];
-	data.colors = {
-		"Tank": "#4682B4",
-		"DPS": "#FF7F50",
-		"Support": "#ADFF2F",
+	let data = {
+		labels: ["Avg", "1", "2", "3", "4", "5", "6"],
+		datasets: ["Tank", "DPS", "Support"].map(group => {
+			return {
+				label: group,
+				backgroundColor: colors[group],
+				data: [0, 0, 0, 0, 0, 0, 0]
+			};
+		})
 	};
-	data.y = "gamesPlayed"
-	roles.forEach(role => {
-		let stats = calcStats(role, season);
-		data[0][role] = stats.gamesPlayed;
-		data[1][role] = stats.gamesPlayedGroup[1];
-		data[2][role] = stats.gamesPlayedGroup[2];
-		data[3][role] = stats.gamesPlayedGroup[3];
-		data[4][role] = stats.gamesPlayedGroup[4];
-		data[5][role] = stats.gamesPlayedGroup[5];
-		data[6][role] = stats.gamesPlayedGroup[6];
-	});
-	node = GroupedBarChart(data, 0, 500, 200);
-	node.style.width = "500px";
-	node.style.height = "200px";
-	document.querySelector("#winRate").appendChild(node);
-}
 
-function drawPieChart () {
-	const roles = ["Tank", "DPS", "Support"];
-	roles.forEach(role => {
-		const row = document.createElement("p");
-		document.querySelector("#winRate").appendChild(row);
-		let caption = document.createElement("span");
-		row.appendChild(caption)
-		caption.style.width = "100px";
-		caption.style.display = "inline-block";
-		caption.innerText = role;
+	WinRateChart = new Chart(document.getElementById("ctxWinRate"), {
+		type: 'bar',
+		data: data,
+		options: {
+			barValueSpacing: 20,
+			scales: {
+				yAxes: [{
+					ticks: {
+						max: 50,
+						min: -50,
+						callback: function(value, index, values) {
+							return `${value + 50}%`;
+						}
+					}
+				}]
+			},
+			tooltips: {
+				callbacks: {
+					label: function(tooltipItem, data) {
+						var label = data.datasets[tooltipItem.datasetIndex].label || '';
 
-		const stats = calcStats(role);
-
-		for (let i = 0; i < 6; i++) {
-			let data = [
-				{
-					name: "win",
-					value: stats.winGroup[i],
-					color: "#006400"
-				},
-				{
-					name: "loss",
-					value: stats.lossGroup[i],
-					color: "#FF0000"
-				},
-				{
-					name: "draw",
-					value: stats.drawGroup[i],
-					color: "#FFDAB9"
+						if (label) {
+							label += ': ';
+						}
+						label += (tooltipItem.yLabel + 50).toFixed(2);
+						return label;
+					}
 				}
-			];
-			data = data.filter(item => {return item.value != 0;})
-			var node = PieChart(data, 100);
-			node.style.width = "100px";
-			caption = document.createElement("span");
-			row.appendChild(caption)
-			caption.innerText = i + 1;
-			row.appendChild(node);
+			}
 		}
 	});
+
+	data = {
+		labels: ["Avg", "1", "2", "3", "4", "5", "6"],
+		datasets: ["Tank", "DPS", "Support"].map(group => {
+			return {
+				label: group,
+				backgroundColor: colors[group],
+				data: [0, 0, 0, 0, 0, 0, 0]
+			};
+		})
+	};
+
+	GamesChart = new Chart(document.getElementById("ctxGames"), {
+		type: 'bar',
+		data: data,
+		options: {
+			barValueSpacing: 20,
+			scales: {
+				yAxes: [{
+					ticks: {
+						min: 0,
+						stepSize: 1
+					}
+				}]
+			}
+		}
+	});
+}
+
+
+/**
+ * Updates both charts with new data inplace
+ */
+function drawGroupedBarChart () {
+	const season = document.querySelector("select.season").value;
+	const roles = ["Tank", "DPS", "Support"];
+
+	let datasets = WinRateChart.data.datasets;
+	roles.forEach((role, index) => {
+		const set = datasets[index];
+		const stats = calcStats(role, season);
+		set.data[0] = stats.gamesPlayed ? stats.winRate * 100 - 50 : 0;
+		set.data[1] = stats.gamesPlayedGroup[1] ? stats.winRateGroup[1] * 100 - 50 : 0;
+		set.data[2] = stats.gamesPlayedGroup[2] ? stats.winRateGroup[2] * 100 - 50 : 0;
+		set.data[3] = stats.gamesPlayedGroup[3] ? stats.winRateGroup[3] * 100 - 50 : 0;
+		set.data[4] = stats.gamesPlayedGroup[4] ? stats.winRateGroup[4] * 100 - 50 : 0;
+		set.data[5] = stats.gamesPlayedGroup[5] ? stats.winRateGroup[5] * 100 - 50 : 0;
+		set.data[6] = stats.gamesPlayedGroup[6] ? stats.winRateGroup[6] * 100 - 50 : 0;
+	});
+
+	WinRateChart.update()
+
+	datasets = GamesChart.data.datasets;
+	roles.forEach((role, index) => {
+		const set = datasets[index];
+		const stats = calcStats(role, season);
+		set.data[0] = stats.gamesPlayed;
+		set.data[1] = stats.gamesPlayedGroup[1];
+		set.data[2] = stats.gamesPlayedGroup[2];
+		set.data[3] = stats.gamesPlayedGroup[3];
+		set.data[4] = stats.gamesPlayedGroup[4];
+		set.data[5] = stats.gamesPlayedGroup[5];
+		set.data[6] = stats.gamesPlayedGroup[6];
+	});
+
+	GamesChart.update();
 }

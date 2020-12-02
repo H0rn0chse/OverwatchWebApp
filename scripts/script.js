@@ -262,8 +262,7 @@ function drawCharts () {
 			scales: {
 				yAxes: [{
 					ticks: {
-						min: 0,
-						stepSize: 1
+						min: 0
 					}
 				}]
 			},

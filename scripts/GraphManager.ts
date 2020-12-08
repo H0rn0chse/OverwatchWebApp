@@ -1,7 +1,6 @@
 import { COLORS, ROLES } from "./Constants.js";
 import { calcStats } from "./stats.js";
 
-
 const colorSchemeQueryList = window.matchMedia('(prefers-color-scheme: dark)');
 
 function setChartColorScheme (evt) {
@@ -38,18 +37,18 @@ export function initCharts () {
 		})
 	};
 
-	WinRateChart = new Chart(document.getElementById("ctxWinRate"), {
+	WinRateChart = new Chart(<HTMLCanvasElement>document.getElementById("ctxWinRate"), {
 		type: 'bar',
 		data: data,
 		options: {
-			barValueSpacing: 20,
 			scales: {
 				yAxes: [{
 					ticks: {
 						max: 50,
 						min: -50,
 						callback: function(value, index, values) {
-							return `${value + 50}%`;
+							const val: number = typeof value == "string" ? 0 : value;
+							return `${val + 50}%`;
 						}
 					}
 				}]
@@ -62,7 +61,8 @@ export function initCharts () {
 						if (label) {
 							label += ': ';
 						}
-						label += (tooltipItem.yLabel + 50).toFixed(2);
+						const val: number = typeof tooltipItem.yLabel == "string" ? 0 : tooltipItem.yLabel;
+						label += (val + 50).toFixed(2);
 						return label;
 					}
 				}
@@ -86,11 +86,10 @@ export function initCharts () {
 		})
 	};
 
-	GamesChart = new Chart(document.getElementById("ctxGames"), {
+	GamesChart = new Chart(<HTMLCanvasElement>document.getElementById("ctxGames"), {
 		type: 'bar',
 		data: data,
 		options: {
-			barValueSpacing: 20,
 			scales: {
 				yAxes: [{
 					ticks: {

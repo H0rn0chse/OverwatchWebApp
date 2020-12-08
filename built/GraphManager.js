@@ -33,14 +33,14 @@ export function initCharts() {
         type: 'bar',
         data: data,
         options: {
-            barValueSpacing: 20,
             scales: {
                 yAxes: [{
                         ticks: {
                             max: 50,
                             min: -50,
                             callback: function (value, index, values) {
-                                return `${value + 50}%`;
+                                const val = typeof value == "string" ? 0 : value;
+                                return `${val + 50}%`;
                             }
                         }
                     }]
@@ -52,7 +52,8 @@ export function initCharts() {
                         if (label) {
                             label += ': ';
                         }
-                        label += (tooltipItem.yLabel + 50).toFixed(2);
+                        const val = typeof tooltipItem.yLabel == "string" ? 0 : tooltipItem.yLabel;
+                        label += (val + 50).toFixed(2);
                         return label;
                     }
                 }
@@ -78,7 +79,6 @@ export function initCharts() {
         type: 'bar',
         data: data,
         options: {
-            barValueSpacing: 20,
             scales: {
                 yAxes: [{
                         ticks: {

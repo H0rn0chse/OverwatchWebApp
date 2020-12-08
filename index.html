@@ -4,13 +4,11 @@
 		<meta charset="utf-8">
 		<title>OverwatchWebApp</title>
 		<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
-		<script src="scripts/script.js"></script>
-		<script src="scripts/table.js"></script>
-		<script src="scripts/stats.js"></script>
-		<script src="scripts/utils.js"></script>
-		<script src="scripts/exportData.js"></script>
-		<script src="scripts/importData.js"></script>
 		<link rel="stylesheet" href="styles/style.css">
+		<script type="module">
+			import { init } from "./built/handler.js";
+			init();
+		</script>
 	</head>
 	<body>
 		<div id="hidden"></div>
@@ -39,7 +37,7 @@
 			<div id="stats">
 				<h2>letzten 10 Spiele</h2>
 				<span>Rolle</span>
-				<select class="role" onchange="updateTable()">
+				<select class="role" onchange="window.updateInfo()">
 					<option value="All">All</option>
 					<option value="Tank">Tank</option>
 					<option value="DPS">DPS</option>
@@ -49,7 +47,7 @@
 			</div>
 		</div>
 		<div class="left">
-			<select class="season" onchange="updateSeasonStats()">
+			<select class="season" onchange="window.updateSeasonStats()">
 			</select>
 			<div id="graphs">
 				<div id="winRate" class="smallGraph">
@@ -60,10 +58,10 @@
 		</div>
 		<br style="clear: left;" />
 		<div>
-			<button onclick="addRow()">Neuer Eintrag</button>
+			<button onclick="window.addRow()">Neuer Eintrag</button>
 		</div>
-		<button id="btnExport" onclick="exportEntries()">Export</button>
-		<button id="btnImport" onclick="importEntries()">Import</button>
+		<button id="btnExport" onclick="window.exportEntries()">Export</button>
+		<button id="btnImport" onclick="window.importEntries()">Import</button>
 		<div id= "divDirtyState">
 			<input id="cbxDirtyState" type="checkbox"/>
 			<label for="cbxDirtyState">ignore dirtyState</label>

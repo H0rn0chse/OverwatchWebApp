@@ -1,8 +1,27 @@
-function addRow (item) {
+import { getItems, setItems, saveItems } from "./ItemManager.js";
+
+export function rebuildTable () {
+    // clear table
+    let items = getItems();
+	document.querySelector("#entries tbody").innerHTML = "";
+
+	if (!items) {
+		items = [];
+		addRow();
+	} else {
+		items.forEach(item => {
+			addRow(item);
+		});
+	}
+	window.dispatchEvent(new Event("updateAll"));
+}
+
+export function addRow (item?) {
+    const items = getItems();
 	if (!item) {
-		lastItem = items[items.length - 1] || {};
+		const lastItem: any = items[items.length - 1] || {};
 		item = {
-			id: lastItem.id+1 || 1,
+			id: lastItem.id + 1 || 1,
 			session: lastItem.session || "1",
 			sr: lastItem.sr || "2000",
 			role: lastItem.role || "Support",
@@ -21,7 +40,7 @@ function addRow (item) {
 	const sessionCol = document.createElement("td");
 	newRow.appendChild(sessionCol);
 	sessionCol.classList.add("session");
-	sessionInput = document.createElement("input");
+	const sessionInput = document.createElement("input");
 	sessionCol.appendChild(sessionInput);
 	sessionInput.setAttribute("type", "text");
 	sessionInput.value = item.session;
@@ -30,7 +49,7 @@ function addRow (item) {
 	const srCol = document.createElement("td");
 	newRow.appendChild(srCol);
 	srCol.classList.add("sr");
-	srInput = document.createElement("input");
+	const srInput = document.createElement("input");
 	srCol.appendChild(srInput);
 	srInput.setAttribute("type", "text");
 	srInput.value = item.sr;
@@ -54,7 +73,7 @@ function addRow (item) {
 	const sizeCol = document.createElement("td");
 	newRow.appendChild(sizeCol);
 	sizeCol.classList.add("size");
-	sizeInput = document.createElement("input");
+	const sizeInput = document.createElement("input");
 	sizeCol.appendChild(sizeInput);
 	sizeInput.setAttribute("type", "text");
 	sizeInput.value = item.size;
@@ -78,7 +97,7 @@ function addRow (item) {
 	const seasonCol = document.createElement("td");
 	newRow.appendChild(seasonCol);
 	seasonCol.classList.add("season");
-	seasonInput = document.createElement("input");
+	const seasonInput = document.createElement("input");
 	seasonCol.appendChild(seasonInput);
 	seasonInput.setAttribute("type", "text");
 	seasonInput.value = item.season;
@@ -95,6 +114,7 @@ function addRow (item) {
 }
 
 function saveRow (oEvent) {
+    const items = getItems();
 	const row = oEvent.target.closest("tr");
 	const itemId = row.dataset.itemId;
 	const itemIndex = items.findIndex(item => {
@@ -113,12 +133,13 @@ function saveRow (oEvent) {
 function deleteRow (oEvent) {
 	const row = oEvent.target.closest("tr");
 	const itemId = row.dataset.itemId;
-	items = items.reduce((acc, item) => {
+	const items = getItems().reduce((acc, item) => {
 		if (item.id != itemId) {
 			acc.push(item);
 		}
 		return acc;
-	}, []);
+    }, []);
+    setItems(items);
 	row.parentElement.removeChild(row);
 	saveItems();
 }

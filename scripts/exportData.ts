@@ -1,7 +1,10 @@
-function exportEntries () {
-	const text = JSON.stringify(items);
+import { setDirtyState } from "./DirtyState.js";
+import { getItems } from "./ItemManager.js";
+
+export function exportEntries () {
+	const text = JSON.stringify(getItems());
     download(text, 'entries.txt', 'text/plain');
-    window.dirtyState = false;
+    setDirtyState(false)
 }
 
 function download(content, fileName, contentType) {

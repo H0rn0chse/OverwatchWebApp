@@ -97,7 +97,7 @@ export function initCharts() {
 /**
  * Updates both charts with new data inplace
  */
-export function drawGroupedBarChart() {
+export function updateCharts() {
     const season = document.querySelector("select.season").value;
     let datasets = WinRateChart.data.datasets;
     ROLES.forEach((role, index) => {

@@ -1,6 +1,6 @@
 import { loadFromLocalStorage } from "./ItemManager.js";
 import { getDirtyState, setDirtyState } from "./DirtyState.js";
-import { initCharts, drawGroupedBarChart } from "./GraphManager.js";
+import { initCharts, updateCharts } from "./GraphManager.js";
 import { updateInfo, updateSeason, updateSeasonSelect, updateSession } from "./InfoManager.js";
 import { addRow, rebuildTable } from "./TableManager.js";
 import { importEntries } from "./importData.js";
@@ -27,7 +27,7 @@ export function init () {
 
     window.addEventListener("updateAll", () => {
         updateSeasonSelect();
-        drawGroupedBarChart();
+        updateCharts();
         updateInfo();
         updateSeason();
         updateSession();
@@ -35,7 +35,7 @@ export function init () {
 
     window.updateInfo = updateInfo;
     window.updateSeasonStats = () => {
-        drawGroupedBarChart();
+        updateCharts();
     };
     window.addRow = addRow;
     window.exportEntries = exportEntries;

@@ -1,7 +1,9 @@
 import { COLORS, ROLES } from "./Constants.js";
 import { calcStats } from "./stats.js";
+import { Stats } from "./types.js";
 
 const colorSchemeQueryList = window.matchMedia('(prefers-color-scheme: dark)');
+const PROGRESS_ENTRY_LENGTH = 20;
 
 function setChartColorScheme (evt) {
 	Chart.defaults.global.defaultFontColor = getComputedStyle(document.body).getPropertyValue('--color');
@@ -12,12 +14,16 @@ function setChartColorScheme (evt) {
 	if (WinRateChart) {
 		WinRateChart.update();
 	}
+	if (ProgressChart) {
+		ProgressChart.update();
+	}
 	return false;
 }
 colorSchemeQueryList.addEventListener("change", setChartColorScheme);
 
 var GamesChart = null;
 var WinRateChart = null;
+var ProgressChart = null;
 
 /**
  * To be called initially to create charts and references
@@ -26,7 +32,7 @@ export function initCharts () {
 
     setChartColorScheme(colorSchemeQueryList);
 
-	let data = {
+	let data: any = {
 		labels: ["Avg", "1", "2", "3", "4", "5", "6"],
 		datasets: ROLES.map(group => {
 			return {
@@ -104,8 +110,25 @@ export function initCharts () {
 			}
 		}
 	});
-}
 
+	data = {
+		labels: new Array(PROGRESS_ENTRY_LENGTH).fill(""),
+		datasets: ROLES.map(group => {
+			return {
+				label: group,
+				borderColor: COLORS[group],
+				fill: false,
+				data: new Array(PROGRESS_ENTRY_LENGTH).fill(0)
+			};
+		})
+	};
+
+	ProgressChart = new Chart(<HTMLCanvasElement>document.getElementById("ctxProgress"), {
+		type: 'line',
+		data: data,
+		options: {}
+	});
+}
 
 /**
  * Updates both charts with new data inplace
@@ -113,33 +136,58 @@ export function initCharts () {
 export function updateCharts () {
 	const season = document.querySelector<HTMLInputElement>("select.season").value;
 
+	const stats = ROLES.reduce((acc, role) => {
+		acc[role] = calcStats(role, season);
+		return acc;
+	}, {});
+
 	let datasets = WinRateChart.data.datasets;
 	ROLES.forEach((role, index) => {
 		const set = datasets[index];
-		const stats = calcStats(role, season);
-		set.data[0] = stats.gamesPlayed ? stats.winRate * 100 - 50 : 0;
-		set.data[1] = stats.gamesPlayedGroup[1] ? stats.winRateGroup[1] * 100 - 50 : 0;
-		set.data[2] = stats.gamesPlayedGroup[2] ? stats.winRateGroup[2] * 100 - 50 : 0;
-		set.data[3] = stats.gamesPlayedGroup[3] ? stats.winRateGroup[3] * 100 - 50 : 0;
-		set.data[4] = stats.gamesPlayedGroup[4] ? stats.winRateGroup[4] * 100 - 50 : 0;
-		set.data[5] = stats.gamesPlayedGroup[5] ? stats.winRateGroup[5] * 100 - 50 : 0;
-		set.data[6] = stats.gamesPlayedGroup[6] ? stats.winRateGroup[6] * 100 - 50 : 0;
+		const roleStats: Stats = stats[role];
+		set.data[0] = roleStats.gamesPlayed ? roleStats.winRate * 100 - 50 : 0;
+		set.data[1] = roleStats.gamesPlayedGroup[1] ? roleStats.winRateGroup[1] * 100 - 50 : 0;
+		set.data[2] = roleStats.gamesPlayedGroup[2] ? roleStats.winRateGroup[2] * 100 - 50 : 0;
+		set.data[3] = roleStats.gamesPlayedGroup[3] ? roleStats.winRateGroup[3] * 100 - 50 : 0;
+		set.data[4] = roleStats.gamesPlayedGroup[4] ? roleStats.winRateGroup[4] * 100 - 50 : 0;
+		set.data[5] = roleStats.gamesPlayedGroup[5] ? roleStats.winRateGroup[5] * 100 - 50 : 0;
+		set.data[6] = roleStats.gamesPlayedGroup[6] ? roleStats.winRateGroup[6] * 100 - 50 : 0;
 	});
-
 	WinRateChart.update()
 
 	datasets = GamesChart.data.datasets;
 	ROLES.forEach((role, index) => {
 		const set = datasets[index];
-		const stats = calcStats(role, season);
-		set.data[0] = stats.gamesPlayed;
-		set.data[1] = stats.gamesPlayedGroup[1];
-		set.data[2] = stats.gamesPlayedGroup[2];
-		set.data[3] = stats.gamesPlayedGroup[3];
-		set.data[4] = stats.gamesPlayedGroup[4];
-		set.data[5] = stats.gamesPlayedGroup[5];
-		set.data[6] = stats.gamesPlayedGroup[6];
+		const roleStats: Stats = stats[role];
+		set.data[0] = roleStats.gamesPlayed;
+		set.data[1] = roleStats.gamesPlayedGroup[1];
+		set.data[2] = roleStats.gamesPlayedGroup[2];
+		set.data[3] = roleStats.gamesPlayedGroup[3];
+		set.data[4] = roleStats.gamesPlayedGroup[4];
+		set.data[5] = roleStats.gamesPlayedGroup[5];
+		set.data[6] = roleStats.gamesPlayedGroup[6];
 	});
-
 	GamesChart.update();
+
+	datasets = ProgressChart.data.datasets;
+	ROLES.forEach((role, index) => {
+		const set = datasets[index];
+		const roleStats: Stats = stats[role];
+		const entries = roleStats.enhancedEntries
+			.filter(item => {
+				return item.sr > 0;
+			})
+			.reduce((acc, item) =>{
+				if (acc.maxLength === 0) {
+					return acc;
+				}
+				acc.items.push(item.sr);
+				return acc;
+			}, {items: [], maxLength: PROGRESS_ENTRY_LENGTH}).items;
+
+		for (let i = 0; i < PROGRESS_ENTRY_LENGTH; i++) {
+			set.data[i] = entries[i] || null;
+		}
+	});
+	ProgressChart.update();
 }

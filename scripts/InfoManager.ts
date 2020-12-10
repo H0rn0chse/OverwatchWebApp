@@ -3,7 +3,8 @@ import { getEnhancedEntries, getCurrentSeason, getSeasonStats, getSessionStats }
 import { avgArray } from "./utils.js";
 
 export function updateSeasonSelect () {
-	const container = document.querySelector<HTMLInputElement>("select.season");
+	const container = document.querySelector<HTMLSelectElement>("select.season");
+	const oldValue = container.value;
 	container.innerHTML = "";
 
 	const entries = getEnhancedEntries();
@@ -18,7 +19,10 @@ export function updateSeasonSelect () {
 		option.setAttribute("value", s);
 	});
 
-	container.value = seasons[seasons.length - 1];
+	container.value = oldValue || seasons[seasons.length - 1];
+	if (container.selectedIndex === -1) {
+		container.value = seasons[seasons.length - 1];
+	}
 }
 
 export function updateSeason () {

@@ -1,5 +1,5 @@
 import { loadFromLocalStorage } from "./ItemManager.js";
-import { getDirtyState, setDirtyState } from "./DirtyState.js";
+import { getDirtyState, initIgnoreDirtyState, setDirtyState } from "./DirtyState.js";
 import { initCharts, updateCharts } from "./GraphManager.js";
 import { updateInfo, updateSeason, updateSeasonSelect, updateSession } from "./InfoManager.js";
 import { addRow, rebuildTable } from "./TableManager.js";
@@ -7,6 +7,7 @@ import { importEntries } from "./importData.js";
 import { exportEntries } from "./exportData.js";
 export function init() {
     window.addEventListener("load", () => {
+        initIgnoreDirtyState(document.querySelector("#cbxDirtyState"));
         loadFromLocalStorage();
         initCharts();
         rebuildTable();

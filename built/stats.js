@@ -174,18 +174,19 @@ function getEntries(role, season = "All") {
     });
     filteredEntries.forEach((entry, i) => {
         const lastEntry = filteredEntries[i - 1];
+        const lastEntrySr = lastEntry && lastEntry.sr || 0;
         if (entry.wld == "default") {
             entry.wasDefault = true;
-            if (entry.sr > (lastEntry.sr || 0)) {
+            if (entry.sr > lastEntrySr) {
                 entry.wld = "Win";
             }
-            else if (entry.sr < lastEntry.sr) {
+            else if (entry.sr < lastEntrySr) {
                 entry.wld = "Loss";
             }
             else {
                 entry.wld = "Draw";
             }
-            entry.diff = entry.sr - lastEntry.sr;
+            entry.diff = entry.sr - lastEntrySr;
         }
         else {
             entry.diff = 0;

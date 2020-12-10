@@ -1,5 +1,6 @@
 import { COLORS, ROLES } from "./Constants.js";
 import { calcStats } from "./stats.js";
+import { sort } from "./utils.js";
 const colorSchemeQueryList = window.matchMedia('(prefers-color-scheme: dark)');
 const PROGRESS_ENTRY_LENGTH = 20;
 function setChartColorScheme(evt) {
@@ -112,7 +113,13 @@ export function initCharts() {
     ProgressChart = new Chart(document.getElementById("ctxProgress"), {
         type: 'line',
         data: data,
-        options: {}
+        options: {
+            title: {
+                position: "left",
+                display: true,
+                text: `Last ${PROGRESS_ENTRY_LENGTH} Games`
+            }
+        }
     });
 }
 /**
@@ -158,15 +165,18 @@ export function updateCharts() {
             .filter(item => {
             return item.sr > 0;
         })
+            .sort(sort("DESC", "sortId"))
             .reduce((acc, item) => {
             if (acc.maxLength === 0) {
                 return acc;
             }
-            acc.items.push(item.sr);
+            acc.items.push(item);
+            acc.maxLength -= 1;
             return acc;
-        }, { items: [], maxLength: PROGRESS_ENTRY_LENGTH }).items;
+        }, { items: [], maxLength: PROGRESS_ENTRY_LENGTH }).items
+            .sort(sort("ASC", "sortId"));
         for (let i = 0; i < PROGRESS_ENTRY_LENGTH; i++) {
-            set.data[i] = entries[i] || null;
+            set.data[i] = entries[i] && entries[i].sr || null;
         }
     });
     ProgressChart.update();

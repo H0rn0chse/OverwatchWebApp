@@ -1,4 +1,6 @@
 body {
+    margin: 0;
+    padding: 0;
     overflow: hidden;
 }
 
@@ -7,7 +9,7 @@ body {
     width: 100vw;
     display: grid;
     grid-template-columns: 30% auto 40%;
-    grid-template-rows: auto 40px;
+    grid-template-rows: auto 50px;
     grid-template-areas:
     "mainLeft mainMid mainRight"
     "footer footer footer";
@@ -38,7 +40,7 @@ body {
 
 }
 .canvasContainer {
-    width: 30vw;
+    width: 28vw;
 }
 
 .footer {

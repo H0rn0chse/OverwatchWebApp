@@ -71,24 +71,6 @@ svg {
 	padding: 2em;
 }
 
-#btnExport {
-	position: absolute;
-	left: 20px;
-	bottom: 20px;
-}
-
-#btnImport {
-	position: absolute;
-	left: 80px;
-	bottom: 20px;
-}
-
-#divDirtyState {
-	position: absolute;
-	left: 140px;
-	bottom: 20px;
-}
-
 #hidden, .hidden {
 	display: none;
 }

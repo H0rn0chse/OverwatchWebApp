@@ -23,6 +23,14 @@ function minInList(list, property, max) {
         return val[property] < acc && val[property] > 0 ? val[property] : acc;
     }, max);
 }
+function findInList(list, property, identifier, identifierValue) {
+    const elementIndex = list.findIndex(entry => {
+        return entry[identifier] === identifierValue;
+    });
+    if (elementIndex > -1) {
+        return list[elementIndex][property];
+    }
+}
 /**
  * Returns the first numeric value of value that is greater than a threshold
  * @param list list of objects
@@ -259,7 +267,7 @@ export function calcStats(role, season = "All") {
             6: null
         },
         // Session
-        sessionStart: firstGreaterThan(sessionEntries, "sr", 0),
+        sessionStart: findInList(entries, "sr", "id", firstGreaterThan(sessionEntries, "id", 0) - 1) || 0,
         sessionCurrent: lastGreaterThan(sessionEntries, "sr", 0),
         sessionWin: countIf(sessionEntries, [["wld", "Win"]]),
         sessionLoss: countIf(sessionEntries, [["wld", "Loss"]]),

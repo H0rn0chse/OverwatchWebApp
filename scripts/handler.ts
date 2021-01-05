@@ -41,4 +41,18 @@ export function init () {
     window.addRow = addRow;
     window.exportEntries = exportEntries;
     window.importEntries = importEntries;
+    window.setProgressChart = (event) => {
+        // Reset Charts
+        const progressCharts = ["ctxProgress1", "ctxProgress2"];
+        progressCharts.forEach(value => {
+            const element = document.getElementById(value);
+            element.style.display = "none";
+        })
+
+        // Show correct chart
+        const select = <HTMLSelectElement>document.getElementById("progressSelect");
+        const value = select.value;
+        const element = document.getElementById(value);
+        element.style.display = "";
+    }
 }

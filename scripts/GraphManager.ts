@@ -1,4 +1,5 @@
 import { COLORS, ROLES } from "./Constants.js";
+import { getItems } from "./ItemManager.js";
 import { calcStats } from "./stats.js";
 import { Stats } from "./types.js";
 import { sort } from "./utils.js";
@@ -15,8 +16,11 @@ function setChartColorScheme (evt) {
 	if (WinRateChart) {
 		WinRateChart.update();
 	}
-	if (ProgressChart) {
-		ProgressChart.update();
+	if (ProgressChart1) {
+		ProgressChart1.update();
+	}
+	if (ProgressChart2) {
+		ProgressChart2.update();
 	}
 	return false;
 }
@@ -24,7 +28,8 @@ colorSchemeQueryList.addEventListener("change", setChartColorScheme);
 
 var GamesChart = null;
 var WinRateChart = null;
-var ProgressChart = null;
+var ProgressChart1 = null;
+var ProgressChart2 = null;
 
 /**
  * To be called initially to create charts and references
@@ -124,14 +129,50 @@ export function initCharts () {
 		})
 	};
 
-	ProgressChart = new Chart(<HTMLCanvasElement>document.getElementById("ctxProgress"), {
+	ProgressChart1 = new Chart(<HTMLCanvasElement>document.getElementById("ctxProgress1"), {
 		type: 'line',
 		data: data,
 		options: {
 			title: {
 				position: "left",
 				display: true,
-				text: `Last ${PROGRESS_ENTRY_LENGTH} Games`
+				text: `Skill Rating`
+			}
+		}
+	});
+
+	data = {
+		labels: new Array(100).fill(""),
+		datasets: ROLES.map(group => {
+			return {
+				label: group,
+				borderColor: COLORS[group],
+				fill: false,
+				data: new Array(100).fill(0)
+			};
+		})
+	};
+
+	ProgressChart2 = new Chart(<HTMLCanvasElement>document.getElementById("ctxProgress2"), {
+		type: 'line',
+		data: data,
+		options: {
+			title: {
+				position: "left",
+				display: true,
+				text: `Skill Rating`
+			},
+			elements: {
+				point : {
+					radius: 0
+				}
+			},
+			scales: {
+				xAxes: [{
+					gridLines: {
+						display: false
+					}
+				}]
 			}
 		}
 	});
@@ -176,7 +217,7 @@ export function updateCharts () {
 	});
 	GamesChart.update();
 
-	datasets = ProgressChart.data.datasets;
+	datasets = ProgressChart1.data.datasets;
 	ROLES.forEach((role, index) => {
 		const set = datasets[index];
 		const roleStats: Stats = stats[role];
@@ -199,5 +240,43 @@ export function updateCharts () {
 			set.data[i] = entries[i] && entries[i].sr || null;
 		}
 	});
-	ProgressChart.update();
+	ProgressChart1.update();
+
+	datasets = ProgressChart2.data.datasets;
+	ROLES.forEach((role, index) => {
+		let buckets = new Array(100).fill(0);
+
+		const roleStats: Stats = stats[role];
+		const entries = roleStats.enhancedEntries
+			.filter(item => {
+				return item.sr > 0;
+			})
+			.map(item => {
+				return item.sr;
+			});
+
+		let bucketSize = entries.length / buckets.length;
+		if (bucketSize > 1) {
+			const bucketCount = Math.round(bucketSize);
+			buckets = buckets.map((value, index) => {
+				let sum = 0;
+				for (let i = 0; i < bucketCount; i++) {
+					const entryIndex = Math.round(index * bucketSize + i);
+					sum += entries[entryIndex];
+				}
+				return Math.round(sum / bucketCount);
+			});
+		} else if (bucketSize < 1) {
+			buckets = buckets.map((value, index) => {
+				const entryIndex = Math.floor(index * bucketSize);
+				return entries[entryIndex];
+			});
+		}
+
+		const set = datasets[index];
+		for (let i = 0; i < 100; i++) {
+			set.data[i] = buckets[i] || null;
+		}
+	});
+	ProgressChart2.update();
 }

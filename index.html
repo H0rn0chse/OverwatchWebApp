@@ -50,11 +50,14 @@
 			<select class="season" onchange="window.updateSeasonStats()">
 			</select>
 			<div id="graphs">
-				<div id="winRate" class="smallGraph">
-				</div>
 				<canvas id="ctxWinRate"></canvas>
 				<canvas id="ctxGames"></canvas>
-				<canvas id="ctxProgress"></canvas>
+				<canvas id="ctxProgress1"></canvas>
+				<canvas id="ctxProgress2" style="display:none"></canvas>
+				<select id=progressSelect onchange="window.setProgressChart()">
+					<option value="ctxProgress2">All Games</option>
+					<option selected value="ctxProgress1">Last 20 Games</option>
+				</select>
 			</div>
 		</div>
 		<br style="clear: left;" />

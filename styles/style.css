@@ -21,6 +21,7 @@ body {
 	clear:both;
 	background-color: var(--background);
 	color: var(--color);
+	font-family: Roboto, sans-serif;
 }
 
 th {
@@ -52,6 +53,24 @@ td.season, td.season * {
 #stats, #stats .table, #lastSession, #lastSeason {
 	margin-left: 50px;
     margin-top: 20px;
+}
+
+#lastSession, #lastSeason {
+	font-size: small;
+}
+
+#lastSeason table {
+	border-collapse: collapse;
+}
+
+#lastSeason th {
+	padding: 0.5em;
+}
+
+#lastSeason td {
+	padding: 0.5em;
+	border: 1px solid var(--color);
+	text-align: center;
 }
 
 input, select {

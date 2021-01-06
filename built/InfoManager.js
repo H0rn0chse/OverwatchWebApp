@@ -1,6 +1,5 @@
 import { COLORS } from "./Constants.js";
 import { getEnhancedEntries, getCurrentSeason, getSeasonStats, getSessionStats } from "./stats.js";
-import { avgArray } from "./utils.js";
 export function updateSeasonSelect() {
     const container = document.querySelector("select.season");
     const oldValue = container.value;
@@ -22,21 +21,18 @@ export function updateSeasonSelect() {
 }
 export function updateSeason() {
     const container = document.getElementById("lastSeason");
-    container.innerHTML = "";
     const stats = getSeasonStats();
-    let elem;
-    let avg;
-    elem = document.createElement("h2");
-    container.appendChild(elem);
-    elem.innerText = "Season " + getCurrentSeason();
-    elem = document.createElement("p");
-    container.appendChild(elem);
-    avg = avgArray(stats.srLoss, 2);
-    elem.innerHTML = `<b>SrGain per Loss:</b> T:${stats.srLoss[0]}&nbsp;&nbsp;D:${stats.srLoss[1]}&nbsp;&nbsp;S:${stats.srLoss[2]}&nbsp;&nbsp;(${avg})`;
-    elem = document.createElement("p");
-    container.appendChild(elem);
-    avg = avgArray(stats.srWin, 2);
-    elem.innerHTML = `<b>SrGain per Win:</b> T:${stats.srWin[0]}&nbsp;&nbsp;D:${stats.srWin[1]}&nbsp;&nbsp;S:${stats.srWin[2]}&nbsp;&nbsp;(${avg})`;
+    const header = document.getElementById("seasonHeader");
+    header.innerText = "Season " + getCurrentSeason();
+    const ROWS = ["srWin", "srLoss"];
+    const table = container.querySelector("tbody");
+    const rows = table.querySelectorAll("tr");
+    rows.forEach((row, rowIndex) => {
+        const cells = row.querySelectorAll("td");
+        cells.forEach((cell, cellIndex) => {
+            cell.innerText = stats[ROWS[rowIndex]][cellIndex];
+        });
+    });
 }
 export function updateSession() {
     const container = document.getElementById("lastSession");

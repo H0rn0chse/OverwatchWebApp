@@ -1,4 +1,4 @@
-import { getItems, setItems, saveItems } from "./ItemManager.js";
+import { getItems, setItems, saveItems, getLastUpdate } from "./ItemManager.js";
 export function rebuildTable() {
     // clear table
     let items = getItems();
@@ -18,9 +18,16 @@ export function addRow(item) {
     const items = getItems();
     if (!item) {
         const lastItem = items[items.length - 1] || {};
+        let session = lastItem.session || "1";
+        const lastUpdate = getLastUpdate().getTime();
+        const current = new Date().getTime();
+        const diff = 1000 * 60 * 60 * 12;
+        if (current - lastUpdate > diff) {
+            session = parseInt(session, 10) + 1;
+        }
         item = {
             id: lastItem.id + 1 || 1,
-            session: lastItem.session || "1",
+            session: session.toString(),
             sr: lastItem.sr || "2000",
             role: lastItem.role || "Support",
             size: lastItem.size || "2",

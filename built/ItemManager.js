@@ -2,7 +2,7 @@ import { setDirtyState } from "./DirtyState.js";
 var items = [];
 ;
 export function loadFromLocalStorage() {
-    items = JSON.parse(localStorage.getItem("items"));
+    items = JSON.parse(localStorage.getItem("items")) || [];
 }
 export function getItems() {
     return items;

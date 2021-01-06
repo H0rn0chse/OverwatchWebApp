@@ -13,7 +13,7 @@ export interface LocalStorageEntry {
 };
 
 export function loadFromLocalStorage () {
-    items = JSON.parse(localStorage.getItem("items"));
+    items = JSON.parse(localStorage.getItem("items")) || [];
 }
 
 export function getItems (): LocalStorageEntry[] {

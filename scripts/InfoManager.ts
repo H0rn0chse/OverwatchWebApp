@@ -45,7 +45,7 @@ export function updateInfo () {
 	});
 
 	const sessionResult = document.getElementById("sessionResult");
-	sessionResult.innerHTML = `<b>aktuelle Session:</b>&nbsp;&nbsp;${session.wld[0]}W / ${session.wld[1]}L / ${session.wld[2]}D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(${session.sum})`;
+	sessionResult.innerHTML = `<b>aktuelle Session:</b>&nbsp;&nbsp;${session.wld[0]}W / ${session.wld[1]}L / ${session.wld[2]}D&nbsp;&nbsp;&nbsp;&nbsp;(${session.sum})`;
 }
 
 export function updateStats () {

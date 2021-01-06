@@ -32,9 +32,9 @@
 				</table>
 			</div>
 			<div class="mainMid">
-				<div id="lastSeason">
+				<div id="info">
 					<h2 id="seasonHeader"></h2>
-					<table>
+					<table id="infoTable" class="midTable">
 						<thead>
 							<tr>
 								<th></th>
@@ -45,26 +45,45 @@
 						</thead>
 						<tbody>
 							<tr>
-								<th>Loss</th>
+								<th>Career High</th>
 								<td>0</td>
 								<td>0</td>
 								<td>0</td>
 							</tr>
 							<tr>
-								<th>Win</th>
+								<th>Career Low</th>
+								<td>0</td>
+								<td>0</td>
+								<td>0</td>
+							</tr>
+							<tr class="border"></tr>
+							<tr>
+								<th>SR / Loss</th>
+								<td>0</td>
+								<td>0</td>
+								<td>0</td>
+							</tr>
+							<tr>
+								<th>SR / Win</th>
+								<td>0</td>
+								<td>0</td>
+								<td>0</td>
+							</tr>
+							<tr class="border"></tr>
+							<tr>
+								<th>Session Gain</th>
 								<td>0</td>
 								<td>0</td>
 								<td>0</td>
 							</tr>
 						</tbody>
 					</table>
-				</div>
-				<div id="lastSession">
+					<p id="sessionResult"></p>
 				</div>
 				<div id="stats">
 					<h2>letzten 10 Spiele</h2>
 					<span>Rolle</span>
-					<select class="role" onchange="window.updateInfo()">
+					<select class="role" onchange="window.updateStats()">
 						<option value="All">All</option>
 						<option value="Tank">Tank</option>
 						<option value="DPS">DPS</option>

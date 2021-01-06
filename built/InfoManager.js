@@ -1,5 +1,5 @@
 import { COLORS } from "./Constants.js";
-import { getEnhancedEntries, getCurrentSeason, getSeasonStats, getSessionStats } from "./stats.js";
+import { getEnhancedEntries, getCurrentSeason, getSeasonStats, getSessionStats, getCareerStats } from "./stats.js";
 export function updateSeasonSelect() {
     const container = document.querySelector("select.season");
     const oldValue = container.value;
@@ -19,37 +19,26 @@ export function updateSeasonSelect() {
         container.value = seasons[seasons.length - 1];
     }
 }
-export function updateSeason() {
-    const container = document.getElementById("lastSeason");
-    const stats = getSeasonStats();
+export function updateInfo() {
+    const stats = getCareerStats();
+    const season = getSeasonStats();
+    const session = getSessionStats();
     const header = document.getElementById("seasonHeader");
     header.innerText = "Season " + getCurrentSeason();
-    const ROWS = ["srWin", "srLoss"];
-    const table = container.querySelector("tbody");
-    const rows = table.querySelectorAll("tr");
+    const rowValues = [stats.high, stats.low, null, season.srWin, season.srLoss, null, session.gain];
+    const rows = document.querySelectorAll("#infoTable tbody tr");
     rows.forEach((row, rowIndex) => {
         const cells = row.querySelectorAll("td");
         cells.forEach((cell, cellIndex) => {
-            cell.innerText = stats[ROWS[rowIndex]][cellIndex];
+            if (rowValues[rowIndex]) {
+                cell.innerText = rowValues[rowIndex][cellIndex];
+            }
         });
     });
+    const sessionResult = document.getElementById("sessionResult");
+    sessionResult.innerHTML = `<b>aktuelle Session:</b>&nbsp;&nbsp;${session.wld[0]}W / ${session.wld[1]}L / ${session.wld[2]}D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(${session.sum})`;
 }
-export function updateSession() {
-    const container = document.getElementById("lastSession");
-    container.innerHTML = "";
-    const stats = getSessionStats();
-    let elem;
-    elem = document.createElement("h2");
-    container.appendChild(elem);
-    elem.innerText = "aktuelle Session";
-    elem = document.createElement("p");
-    container.appendChild(elem);
-    elem.innerHTML = `<b>SR:</b> T:${stats.gain[0]}&nbsp;&nbsp;D:${stats.gain[1]}&nbsp;&nbsp;S:${stats.gain[2]}&nbsp;&nbsp;(${stats.sum})`;
-    elem = document.createElement("p");
-    container.appendChild(elem);
-    elem.innerHTML = `<b>Ergebnis:</b> ${stats.wld[0]}W / ${stats.wld[1]}L / ${stats.wld[2]}D`;
-}
-export function updateInfo() {
+export function updateStats() {
     const container = document.getElementById("stats");
     const table = container.querySelector("div.table");
     table.innerHTML = "";

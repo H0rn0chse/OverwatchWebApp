@@ -50,24 +50,34 @@ td.season, td.season * {
 	text-align: center;
 }
 
-#stats, #stats .table, #lastSession, #lastSeason {
+#stats, #stats .table, #info {
 	margin-left: 50px;
     margin-top: 20px;
 }
 
-#lastSession, #lastSeason {
+#info {
 	font-size: small;
 }
 
-#lastSeason table {
+#sessionResult {
+	font-size: medium;
+}
+
+.midTable {
 	border-collapse: collapse;
 }
 
-#lastSeason th {
+.midTable th {
 	padding: 0.5em;
 }
 
-#lastSeason td {
+.border {
+	height: 0.5em;
+	width: 100%;
+	background-color: var(--color);
+}
+
+.midTable td {
 	padding: 0.5em;
 	border: 1px solid var(--color);
 	text-align: center;

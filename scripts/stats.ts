@@ -22,9 +22,10 @@ function maxInList (list: object[], property: string, min: number): number {
  * @param max the maximum value
  */
 function minInList (list: object[], property: string, max: number): number {
-    return list.reduce((acc, val) => {
+    const result = list.reduce((acc, val) => {
 		return val[property] < acc && val[property] > 0 ? val[property] : acc;
-	}, max);
+    }, max);
+    return result !== max ? result : null;
 }
 
 function findInList (list: object[], property: string, identifier: string, identifierValue) {
@@ -230,8 +231,8 @@ export function calcStats (role: Role, season: string | number = "All"): Stats {
         enhancedEntries: entries,
         gamesPlayed: entries.length,
         startSr: firstGreaterThan(entries, "sr", 0),
-        seasonHigh: maxInList(entries, "sr", 0),
-        seasonLow: minInList(entries, "sr", 5000),
+        high: maxInList(entries, "sr", 0),
+        low: minInList(entries, "sr", 5000) || 0,
         win: countIf(entries, [["wld", "Win"], ["wld", "Win"]]),
         loss: countIf(entries, [["wld", "Loss"]]),
         draw: countIf(entries, [["wld", "Draw"]]),
@@ -353,6 +354,19 @@ export function getSessionStats () {
 	return sessionStats;
 }
 
+export function getCareerStats () {
+    const result = {
+        high: [0, 0, 0],
+        low: [0, 0, 0]
+    }
+    ROLES.forEach((role, index) => {
+        const roleStats = calcStats(role);
+        result.high[index] = roleStats.high;
+        result.low[index] = roleStats.low;
+    });
+    return result
+}
+
 
 export function getSeasonStats () {
 	const season = getCurrentSeason();
@@ -372,8 +386,6 @@ export function getSeasonStats () {
 		seasonStats.srLoss[index] = seasonStats.srLoss[index].toFixed(1);
 		seasonStats.srWin[index] = roleStats.srWin || 0;
         seasonStats.srWin[index] = seasonStats.srWin[index].toFixed(1);
-        seasonStats.high[index] = roleStats.seasonHigh;
-        seasonStats.low[index] = roleStats.seasonLow;
 	});
 
 	return seasonStats;

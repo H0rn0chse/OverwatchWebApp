@@ -1,7 +1,7 @@
 import { loadFromLocalStorage } from "./ItemManager.js";
 import { getDirtyState, initIgnoreDirtyState, setDirtyState } from "./DirtyState.js";
 import { initCharts, updateCharts } from "./GraphManager.js";
-import { updateInfo, updateSeason, updateSeasonSelect, updateSession } from "./InfoManager.js";
+import { updateStats, updateInfo, updateSeasonSelect } from "./InfoManager.js";
 import { addRow, rebuildTable } from "./TableManager.js";
 import { importEntries } from "./importData.js";
 import { exportEntries } from "./exportData.js";
@@ -29,12 +29,11 @@ export function init () {
     window.addEventListener("updateAll", () => {
         updateSeasonSelect();
         updateCharts();
+        updateStats();
         updateInfo();
-        updateSeason();
-        updateSession();
     })
 
-    window.updateInfo = updateInfo;
+    window.updateStats = updateStats;
     window.updateSeasonStats = () => {
         updateCharts();
     };

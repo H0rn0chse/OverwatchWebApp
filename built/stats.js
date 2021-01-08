@@ -60,6 +60,16 @@ function lastGreaterThan(list, property, min) {
         return acc;
     }, 0) || min;
 }
+function lastSmallerThan(list, property, max) {
+    return list.reduce((acc, entry) => {
+        if (entry[property] < max) {
+            return entry[property];
+        }
+        else {
+            return acc;
+        }
+    }, max);
+}
 /**
  * Evaluates a list of if conditions based on a item. The list gets AND concatenated.
  * @param item the object under test
@@ -268,7 +278,16 @@ export function calcStats(role, season = "All") {
             6: null
         },
         // Session
-        sessionStart: findInList(entries, "sr", "id", firstGreaterThan(sessionEntries, "id", 0) - 1) || 0,
+        sessionStart: (() => {
+            const firstSessionId = firstGreaterThan(sessionEntries, "id", 0);
+            if (firstSessionId) {
+                const startId = lastSmallerThan(entries, "id", firstSessionId);
+                return findInList(entries, "sr", "id", startId) || 0;
+            }
+            else {
+                return 0;
+            }
+        })(),
         sessionCurrent: lastGreaterThan(sessionEntries, "sr", 0),
         sessionWin: countIf(sessionEntries, [["wld", "Win"]]),
         sessionLoss: countIf(sessionEntries, [["wld", "Loss"]]),
@@ -322,7 +341,7 @@ export function getSessionStats() {
         const roleStats = calcStats(role);
         sessionStats.start[index] = roleStats.sessionStart;
         sessionStats.current[index] = roleStats.sessionCurrent;
-        sessionStats.gain[index] = roleStats.sessionCurrent - roleStats.sessionStart;
+        sessionStats.gain[index] = roleStats.sessionStart > 0 ? roleStats.sessionCurrent - roleStats.sessionStart : 0;
         sessionStats.sum += sessionStats.gain[index];
         sessionStats.wld[0] += roleStats.sessionWin;
         sessionStats.wld[1] += roleStats.sessionLoss;

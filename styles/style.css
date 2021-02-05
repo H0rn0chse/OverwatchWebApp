@@ -96,10 +96,6 @@ button {
 	color: var(--color);
 }
 
-svg {
-	padding: 2em;
-}
-
 #hidden, .hidden {
 	display: none;
 }

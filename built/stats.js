@@ -172,7 +172,8 @@ function largestGroup(list, property, value) {
     }, [0, 0])[1] || 0;
 }
 function getEntries(role, season = "All") {
-    const filteredEntries = getItems()
+    return getItems()
+        // ensure types for session, sr, size, season
         .map((item, index) => {
         const result = deepClone(item);
         result.sortId = index;
@@ -182,18 +183,37 @@ function getEntries(role, season = "All") {
         result.season = parseInt(item.season, 10);
         return result;
     })
+        // filter for role
         .filter(item => {
         if (role === null) {
             return true;
         }
         return item.role == role;
     })
+        // filter for season
         .filter(item => {
         return season === "All" ? true : item.season == season;
-    });
-    filteredEntries.forEach((entry, i) => {
-        const lastEntry = filteredEntries[i - 1];
-        const lastEntrySr = lastEntry && lastEntry.sr || 0;
+    })
+        // add diffOffset
+        .reduce((acc, entry) => {
+        if (entry.wld === "noCount") {
+            const lastEntry = acc[acc.length - 1];
+            if (lastEntry) {
+                lastEntry.diffOffset = entry.sr - lastEntry.sr;
+            }
+        }
+        else {
+            acc.push(entry);
+        }
+        return acc;
+    }, [])
+        // add wld and diff
+        .reduce((acc, entry) => {
+        const lastEntry = acc[acc.length - 1];
+        const diffOffset = lastEntry && lastEntry.diffOffset || 0;
+        let lastEntrySr = lastEntry && lastEntry.sr || 0;
+        // fix sr
+        lastEntrySr = lastEntrySr + diffOffset;
         if (entry.wld == "default") {
             entry.wasDefault = true;
             if (entry.sr > lastEntrySr) {
@@ -210,8 +230,9 @@ function getEntries(role, season = "All") {
         else {
             entry.diff = 0;
         }
-    });
-    return filteredEntries;
+        acc.push(entry);
+        return acc;
+    }, []);
 }
 export function calcStats(role, season = "All") {
     const entries = getEntries(role, season);

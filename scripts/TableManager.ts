@@ -88,7 +88,7 @@ export function addRow (item?) {
 	sizeInput.value = item.size;
 	sizeInput.addEventListener("change", saveRow);
 
-	const wld = ["default", "Win", "Loss", "Draw"];
+	const wld = ["default", "Win", "Loss", "Draw", "noCount"];
 	const wldCol = document.createElement("td");
 	newRow.appendChild(wldCol);
 	wldCol.classList.add("wld");

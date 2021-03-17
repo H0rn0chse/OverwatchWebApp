@@ -188,7 +188,8 @@ function largestGroup(list: object[], property: string, value: any): number {
 }
 
 function getEntries (role: Role, season: string | number = "All") : Entry[] {
-    const filteredEntries = getItems()
+    return getItems()
+        // ensure types for session, sr, size, season
 		.map((item, index) => {
             const result = deepClone(item);
             result.sortId = index;
@@ -198,36 +199,55 @@ function getEntries (role: Role, season: string | number = "All") : Entry[] {
             result.season = parseInt(item.season, 10);
 			return result;
 		})
+        // filter for role
 		.filter(item => {
             if (role === null) {
                 return true;
             }
 			return item.role == role;
         })
+        // filter for season
         .filter(item => {
             return season === "All" ? true : item.season == season;
         })
-
-    filteredEntries.forEach((entry, i) => {
-        const lastEntry = filteredEntries[i-1];
-        const lastEntrySr = lastEntry && lastEntry.sr || 0;
-        if (entry.wld == "default") {
-            entry.wasDefault = true;
-            if (entry.sr > lastEntrySr) {
-                entry.wld = "Win"
-            }
-            else if(entry.sr < lastEntrySr) {
-                entry.wld = "Loss"
+        // add diffOffset
+        .reduce((acc, entry) => {
+            if (entry.wld === "noCount") {
+                const lastEntry = acc[acc.length - 1];
+                if (lastEntry) {
+                    lastEntry.diffOffset = entry.sr - lastEntry.sr;
+                }
             } else {
-                entry.wld = "Draw"
+                acc.push(entry);
             }
-            entry.diff = entry.sr - lastEntrySr;
-        } else {
-            entry.diff = 0;
-        }
-    });
+            return acc;
+        }, [])
+        // add wld and diff
+        .reduce((acc, entry) => {
+            const lastEntry = acc[acc.length - 1];
+            const diffOffset = lastEntry && lastEntry.diffOffset || 0;
+            let lastEntrySr = lastEntry && lastEntry.sr || 0;
 
-    return filteredEntries;
+            // fix sr
+            lastEntrySr = lastEntrySr + diffOffset;
+
+            if (entry.wld == "default") {
+                entry.wasDefault = true;
+                if (entry.sr > lastEntrySr) {
+                    entry.wld = "Win"
+                }
+                else if(entry.sr < lastEntrySr) {
+                    entry.wld = "Loss"
+                } else {
+                    entry.wld = "Draw"
+                }
+                entry.diff = entry.sr - lastEntrySr;
+            } else {
+                entry.diff = 0;
+            }
+            acc.push(entry);
+            return acc;
+        }, []);
 }
 
 export function calcStats (role: Role, season: string | number = "All"): Stats {

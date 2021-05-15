@@ -7,3 +7,5 @@ export const COLORS = {
 };
 
 export const ROLES: Role[] = ["Tank", "DPS", "Support"];
+
+export const SESSION_TIMEOUT = 1000 * 60 * 60 * 12;

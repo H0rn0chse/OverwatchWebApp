@@ -402,3 +402,16 @@ export function getSeasonStats() {
     });
     return seasonStats;
 }
+export function getSeasonList() {
+    const entries = getEnhancedEntries();
+    let seasons = entries.map(e => e.season);
+    seasons = [...new Set(seasons)]
+        .map((season) => {
+        return {
+            value: season,
+            text: `S${season}`,
+        };
+    });
+    seasons.splice(0, 0, { value: "All", text: "All" });
+    return seasons;
+}

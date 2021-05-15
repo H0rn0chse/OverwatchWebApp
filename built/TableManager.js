@@ -1,3 +1,4 @@
+import { SESSION_TIMEOUT } from "./Constants.js";
 import { getItems, setItems, saveItems, getLastUpdate } from "./ItemManager.js";
 export function rebuildTable() {
     // clear table
@@ -21,7 +22,7 @@ export function addRow(item) {
         let session = lastItem.session || "1";
         const lastUpdate = getLastUpdate().getTime();
         const current = new Date().getTime();
-        const diff = 1000 * 60 * 60 * 12;
+        const diff = SESSION_TIMEOUT;
         if (current - lastUpdate > diff) {
             session = parseInt(session, 10) + 1;
         }

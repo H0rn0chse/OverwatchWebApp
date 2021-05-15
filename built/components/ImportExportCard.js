@@ -41,7 +41,7 @@ export const ImportExportCard = Vue.component("import-export-card", {
                 v-model="ignoreDirtyStateLocal"
                 class="mb-2"
             >
-                Block Reminder
+                Enable Reminder
             </b-form-checkbox>
             <b-button v-on:click="importEntries">
                 Import
@@ -56,7 +56,7 @@ export const ImportExportCard = Vue.component("import-export-card", {
         "ignoreDirtyState",
     ])), { ignoreDirtyStateLocal: {
             get() {
-                return this.ignoreDirtyState;
+                return !this.ignoreDirtyState;
             },
             set(newChecked) {
                 this.setIgnoreDirtyState(newChecked);

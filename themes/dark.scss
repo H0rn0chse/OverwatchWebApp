@@ -1,0 +1,16 @@
+@use "sass:color";
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+
+$body-color: #444;
+$body-bg: #e4e4e4;
+$headings-color: $body-color;
+$border-color: $body-color;
+$table-head-color: $body-color;
+$table-color: $body-color;
+
+$dropdown-bg: $secondary;
+
+/* finally, import Bootstrap to set the changes */
+@import "bootstrap/scss/bootstrap";
+@import 'bootstrap-vue/src/index.scss';

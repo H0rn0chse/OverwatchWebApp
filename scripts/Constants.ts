@@ -3,7 +3,7 @@ import { Role } from "./types";
 export const COLORS = {
     Tank: "#4682B4",
     DPS: "#FF7F50",
-    Support: "#ADFF2F",
+    Support: "#87E000",
 };
 
 export const ROLES: Role[] = ["Tank", "DPS", "Support"];

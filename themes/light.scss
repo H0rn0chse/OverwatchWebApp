@@ -2,8 +2,15 @@
 @import "bootstrap/scss/functions";
 @import "bootstrap/scss/variables";
 
+$theme-colors: (
+    "danger": #E4626F
+);
+
 // background
 $body-bg: #e4e4e4;
+$table-accent-bg: #B7BBBE;
+$table-hover-bg: $table-accent-bg;
+$table-active-bg: $table-accent-bg;
 
 // text
 $body-color: #444;

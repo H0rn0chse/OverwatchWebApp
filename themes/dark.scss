@@ -2,15 +2,51 @@
 @import "bootstrap/scss/functions";
 @import "bootstrap/scss/variables";
 
-$body-color: #444;
+$theme-colors: (
+    "danger": #E4626F
+);
+
+// background
 $body-bg: #e4e4e4;
+$table-accent-bg: #B7BBBE;
+$table-hover-bg: $table-accent-bg;
+$table-active-bg: $table-accent-bg;
+
+// text
+$body-color: #444;
 $headings-color: $body-color;
-$border-color: $body-color;
 $table-head-color: $body-color;
 $table-color: $body-color;
 
-$dropdown-bg: $secondary;
+// border
+$border-color: #B8B8B8;
+$table-border-color: $border-color;
+
+$table-indicator: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'><path fill='#{$custom-select-indicator-color}' d='M2 0L0 2h4zm0 5L0 3h4z'/></svg>");
+$custom-select-indicator-color: $white;
+$custom-indicator: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'><path fill='#{$custom-select-indicator-color}' d='M2 0L0 2h4zm0 5L0 3h4z'/></svg>");
 
 /* finally, import Bootstrap to set the changes */
 @import "bootstrap/scss/bootstrap";
 @import 'bootstrap-vue/src/index.scss';
+
+.custom-select {
+    background-color: $secondary;
+    color: $white;
+    background:  $secondary escape-svg($custom-indicator) right $custom-select-padding-x center / $custom-select-bg-size no-repeat;
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.table {
+    .custom-select {
+        background-color: $custom-select-bg;
+        color: $custom-select-color;
+        background: $custom-select-bg escape-svg($table-indicator) right $custom-select-padding-x center / $custom-select-bg-size no-repeat;
+    }
+
+    th {
+        top: -1px !important;
+    }
+}

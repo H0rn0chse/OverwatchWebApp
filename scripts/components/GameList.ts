@@ -67,6 +67,7 @@ export const GameList = Vue.component("game-list", {
                     <b-button
                         size="sm"
                         v-on:click="deleteRow(row.item.id)"
+                        variant="danger"
                     >
                         <b-icon icon="trash" />
                     </b-button>

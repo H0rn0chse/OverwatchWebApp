@@ -31,6 +31,7 @@ export const ChartGamesPlayed = Vue.component("chart-games-played", {
             "roles",
             "colors",
             "stats",
+            "theme",
         ]),
         datasetData () {
 
@@ -65,7 +66,10 @@ export const ChartGamesPlayed = Vue.component("chart-games-played", {
         stats: function (newStats, oldStats) {
             mergeChartJsData(this.$data._chart.data, this.chartData)
             this.$data._chart.update();
-        }
+        },
+        theme: function (newTheme, oldTheme) {
+            this.$data._chart.update();
+        },
     },
     mounted () {
         this.renderChart(this.chartData, this.options)

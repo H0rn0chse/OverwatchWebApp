@@ -3,6 +3,7 @@ import { getItems, getLastUpdate, loadFromLocalStorage, saveItems, setItems } fr
 import { calcStats, getCareerStats, getCurrentSeason, getEnhancedEntries, getSeasonList, getSeasonStats, getSessionStats } from "./stats.js";
 import { indexByProperty } from "./utils.js";
 import { getIgnoreDirtyState, setDirtyState, setIgnoreDirtyState } from "./DirtyState.js";
+import { ThemeHandler } from "./ThemeHandler.js";
 
 const { Vuex, _ } = globalThis;
 
@@ -22,6 +23,7 @@ export const appState = new Vuex.Store({
         stats: {},
         selectedChartOption: "all",
         ignoreDirtyState: getIgnoreDirtyState(),
+        theme: "",
     },
     mutations: {
         updateAll (state) {
@@ -91,6 +93,10 @@ export const appState = new Vuex.Store({
             state.ignoreDirtyState = param.value;
             setIgnoreDirtyState(param.value);
         },
+        setTheme (state, param) {
+            Chart.defaults.global.defaultFontColor = getComputedStyle(document.body).getPropertyValue('--chart-color');
+            state.theme = param.theme;
+        }
     },
     actions: {
         updateAll (context) {
@@ -120,7 +126,7 @@ export const appState = new Vuex.Store({
         },
         setIgnoreDirtyState (context, value) {
             context.commit('setIgnoreDirtyState', { value });
-        }
+        },
     },
 });
 globalThis.AppState = appState;

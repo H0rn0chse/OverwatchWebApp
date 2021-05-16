@@ -19,6 +19,7 @@ export const appState = new Vuex.Store({
         stats: {},
         selectedChartOption: "all",
         ignoreDirtyState: getIgnoreDirtyState(),
+        theme: "",
     },
     mutations: {
         updateAll(state) {
@@ -85,6 +86,10 @@ export const appState = new Vuex.Store({
             state.ignoreDirtyState = param.value;
             setIgnoreDirtyState(param.value);
         },
+        setTheme(state, param) {
+            Chart.defaults.global.defaultFontColor = getComputedStyle(document.body).getPropertyValue('--chart-color');
+            state.theme = param.theme;
+        }
     },
     actions: {
         updateAll(context) {
@@ -114,7 +119,7 @@ export const appState = new Vuex.Store({
         },
         setIgnoreDirtyState(context, value) {
             context.commit('setIgnoreDirtyState', { value });
-        }
+        },
     },
 });
 globalThis.AppState = appState;

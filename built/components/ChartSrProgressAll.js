@@ -33,6 +33,7 @@ export const ChartSrProgressAll = Vue.component("chart-sr-progress-all", {
         "roles",
         "colors",
         "stats",
+        "theme",
     ])), { datasetData() {
             return this.roles.map((role, index) => {
                 let buckets = new Array(100).fill(0);
@@ -82,7 +83,10 @@ export const ChartSrProgressAll = Vue.component("chart-sr-progress-all", {
         stats: function (newStats, oldStats) {
             mergeChartJsData(this.$data._chart.data, this.chartData);
             this.$data._chart.update();
-        }
+        },
+        theme: function (newTheme, oldTheme) {
+            this.$data._chart.update();
+        },
     },
     mounted() {
         this.renderChart(this.chartData, this.options);

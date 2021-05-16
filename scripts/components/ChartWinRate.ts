@@ -50,6 +50,7 @@ export const ChartWinRate = Vue.component("chart-win-rate", {
             "roles",
             "colors",
             "stats",
+            "theme",
         ]),
         datasetData () {
             return this.roles.map((role, index) => {
@@ -83,7 +84,10 @@ export const ChartWinRate = Vue.component("chart-win-rate", {
         stats: function (newStats, oldStats) {
             mergeChartJsData(this.$data._chart.data, this.chartData)
             this.$data._chart.update();
-        }
+        },
+        theme: function (newTheme, oldTheme) {
+            this.$data._chart.update();
+        },
     },
     mounted () {
         this.renderChart(this.chartData, this.options)

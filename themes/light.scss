@@ -2,10 +2,6 @@
 @import "bootstrap/scss/functions";
 @import "bootstrap/scss/variables";
 
-$theme-colors: (
-    "danger": #E4626F
-);
-
 // background
 $body-bg: #e4e4e4;
 $table-accent-bg: #B7BBBE;
@@ -25,6 +21,11 @@ $table-border-color: $border-color;
 $table-indicator: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'><path fill='#{$custom-select-indicator-color}' d='M2 0L0 2h4zm0 5L0 3h4z'/></svg>");
 $custom-select-indicator-color: $white;
 $custom-indicator: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'><path fill='#{$custom-select-indicator-color}' d='M2 0L0 2h4zm0 5L0 3h4z'/></svg>");
+
+$theme-colors: (
+    "danger": #E4626F,
+    "chart-color": $body-color
+);
 
 /* finally, import Bootstrap to set the changes */
 @import "bootstrap/scss/bootstrap";

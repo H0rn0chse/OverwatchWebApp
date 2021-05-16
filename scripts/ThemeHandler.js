@@ -1,0 +1,63 @@
+import { appState } from "./AppState.js";
+
+class _ThemeHandler {
+    constructor () {
+        this.themes = {
+            light: document.querySelector("#light"),
+            dark: document.querySelector("#dark"),
+        };
+
+        this._initWatcher();
+    }
+
+    _getInverseTheme (theme) {
+        switch (theme) {
+            case "light":
+                return this.themes.dark;
+            case "dark":
+                return this.themes.light;
+            default:
+        }
+    }
+
+    _initWatcher () {
+        const colorSchemeQueryList = window.matchMedia("(prefers-color-scheme: dark)");
+        colorSchemeQueryList.addEventListener("change", (evt) => {
+            const preferDark = colorSchemeQueryList.matches;
+            this.selectTheme(preferDark ? "dark" : "light");
+        });
+        const preferDark = colorSchemeQueryList.matches;
+        this._initThemes(preferDark ? "dark" : "light");
+    }
+
+    _initThemes (theme) {
+        this.currentTheme = theme;
+        const inverseTheme = this._getInverseTheme(theme);
+        inverseTheme.remove();
+        appState.commit('setTheme', { theme });
+    }
+
+    selectTheme (theme) {
+        if (this.currentTheme === theme) {
+            return;
+        }
+
+        const targetTheme = this.themes[theme].cloneNode();
+        targetTheme.addEventListener("load", (evt) => {
+            appState.commit('setTheme', { theme });
+        }, { once: true });
+        document.head.appendChild(targetTheme);
+        this.themes[theme] = targetTheme;
+
+        const activeTheme = this._getInverseTheme(theme);
+        activeTheme.remove();
+        this.currentTheme = theme;
+    }
+
+    getTheme () {
+        return this.currentTheme;
+    }
+}
+
+export const ThemeHandler = new _ThemeHandler();
+globalThis.ThemeHandler = ThemeHandler;

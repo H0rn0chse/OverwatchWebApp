@@ -33,7 +33,7 @@ function _handleFileSelect(event) {
 export const ImportExportCard = Vue.component("import-export-card", {
     template: `
         <b-card
-            style="max-width:20rem;"
+            style="min-width:13.75em;"
             title="Import & Export"
             class="mb-5"
         >

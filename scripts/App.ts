@@ -53,7 +53,7 @@ const app = new Vue({
                         </b-col>
                     </b-row>
                     <b-row align-v="stretch" class="flex-grow-1">
-                        <b-col>
+                        <b-col class="d-flex flex-column justify-content-end">
                             <game-list class="pr-3"/>
                         </b-col>
                     </b-row>

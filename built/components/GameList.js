@@ -13,7 +13,6 @@ export const GameList = Vue.component("game-list", {
     template: `
         <div
             class="game-list h-100 d-flex flex-column justify-content-end"
-            style="max-width:55em;"
         >
             <b-table
                 striped

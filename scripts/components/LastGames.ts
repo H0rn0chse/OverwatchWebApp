@@ -11,6 +11,7 @@ export const LastGames = Vue.component("last-games", {
                 v-bind:colors="colors"
                 :items="items"
                 :fields="fields"
+                sticky-header="calc(100vh - 350px)"
             >
                 <template  #head(diff)="data">
                     <span></span>
@@ -40,7 +41,7 @@ export const LastGames = Vue.component("last-games", {
             </span>
             <br>
             <span>
-                Aktuelle Session:  <strong>{{ session.wld[0] }}W / {{ session.wld[1] }}L / {{ session.wld[2] }}D</strong>&nbsp;&nbsp;&nbsp;({{ session.sum }})
+                Aktuelle&nbsp;Session:&nbsp;<strong>{{ session.wld[0] }}W&nbsp;/&nbsp;{{ session.wld[1] }}L&nbsp;/&nbsp;{{ session.wld[2] }}D</strong>&nbsp;&nbsp;&nbsp;({{ session.sum }})
             </span>
         </div>
     `,

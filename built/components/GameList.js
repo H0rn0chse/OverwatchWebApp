@@ -89,10 +89,7 @@ export const GameList = Vue.component("game-list", {
                     class="m-0 mr-3"
                 />
 
-                <b-button
-                    size="sm"
-                    v-on:click="addRow"
-                >
+                <b-button v-on:click="addRow">
                     Neuer Eintrag
                 </b-button>
             </div>

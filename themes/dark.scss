@@ -2,7 +2,7 @@
 @import "bootstrap/scss/functions";
 @import "bootstrap/scss/variables";
 
-// background
+// =================== background ===================
 $body-bg: #444;
 $input-bg: $body-bg;
 $custom-select-bg: $body-bg;
@@ -11,22 +11,24 @@ $table-accent-bg: #76797B;
 $table-hover-bg: $table-accent-bg;
 $table-active-bg: $table-accent-bg;
 $card-bg: $table-accent-bg;
+$input-focus-bg: $table-accent-bg;
 
 $pagination-bg: $secondary;
 $pagination-disabled-bg: $table-accent-bg;
 
-// text
+// =================== text ===================
 $body-color: #e4e4e4;
 $headings-color: $body-color;
 $table-head-color: $body-color;
 $table-color: $body-color;
 $input-color: $body-color;
 $custom-select-color: $body-color;
+$input-focus-color: $body-color;
 
 $pagination-color: $body-color;
 $pagination-disabled-color: $body-color;
 
-// border
+// =================== border ===================
 $border-color: #A3A3A3;
 $table-border-color: $border-color;
 

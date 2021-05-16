@@ -7,21 +7,34 @@ $theme-colors: (
 );
 
 // background
-$body-bg: #e4e4e4;
-$table-accent-bg: #B7BBBE;
+$body-bg: #444;
+$input-bg: $body-bg;
+$custom-select-bg: $body-bg;
+
+$table-accent-bg: #76797B;
 $table-hover-bg: $table-accent-bg;
 $table-active-bg: $table-accent-bg;
+$card-bg: $table-accent-bg;
+
+$pagination-bg: $secondary;
+$pagination-disabled-bg: $table-accent-bg;
 
 // text
-$body-color: #444;
+$body-color: #e4e4e4;
 $headings-color: $body-color;
 $table-head-color: $body-color;
 $table-color: $body-color;
+$input-color: $body-color;
+$custom-select-color: $body-color;
+
+$pagination-color: $body-color;
+$pagination-disabled-color: $body-color;
 
 // border
-$border-color: #B8B8B8;
+$border-color: #A3A3A3;
 $table-border-color: $border-color;
 
+$custom-select-indicator-color: $body-color;
 $table-indicator: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'><path fill='#{$custom-select-indicator-color}' d='M2 0L0 2h4zm0 5L0 3h4z'/></svg>");
 $custom-select-indicator-color: $white;
 $custom-indicator: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'><path fill='#{$custom-select-indicator-color}' d='M2 0L0 2h4zm0 5L0 3h4z'/></svg>");
@@ -36,6 +49,12 @@ $custom-indicator: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/sv
     background:  $secondary escape-svg($custom-indicator) right $custom-select-padding-x center / $custom-select-bg-size no-repeat;
     &:hover {
         cursor: pointer;
+    }
+}
+
+.card {
+    .btn-secondary{
+        background-color: $primary;
     }
 }
 

@@ -8,8 +8,9 @@
 		<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
 
 		<!-- ==========================================  Vue Setup  ========================================== -->
-		<!--<link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap@4/dist/css/bootstrap.min.css" />-->
-		<!--<link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@2/dist/bootstrap-vue.min.css" />-->
+		<!-- These css is used as fallback for theme switching -->
+		<link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap@4/dist/css/bootstrap.min.css" />
+		<link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@2/dist/bootstrap-vue.min.css" />
 
 		<!-- Load Vue followed by BootstrapVue followed by vuex -->
 		<!--<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>-->
@@ -24,10 +25,10 @@
 		<script src="https://unpkg.com/vue-chartjs@3/dist/vue-chartjs.min.js"></script>
 
 		<script type="module" src="./built/App.js"></script>
-		<link rel="stylesheet" href="styles/App.css">
+		<link rel="stylesheet" href="./styles/App.css">
 
 		<!-- custom bootstrap & bootstrap-vue build -->
-		<link rel="stylesheet" href="styles/light.css">
+		<link id="theme" rel="stylesheet" href="./styles/dark.css">
 	</head>
 	<body>
 		<div id="app"></div>

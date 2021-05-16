@@ -5,126 +5,40 @@
 		<title>OverwatchWebApp</title>
 		<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-		<link rel="stylesheet" href="styles/style.css">
-		<link rel="stylesheet" href="styles/grid.css">
-		<script type="module" src="./built/handler.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+
+		<!-- ==========================================  Vue Setup  ========================================== -->
+		<!-- These css is used as fallback for theme switching -->
+		<link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap@4/dist/css/bootstrap.min.css" />
+		<link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@2/dist/bootstrap-vue.min.css" />
+
+		<!-- Load Vue followed by BootstrapVue followed by vuex -->
+		<!--<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>-->
+		<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.min.js"></script>
+		<script src="https://unpkg.com/bootstrap-vue@2/dist/bootstrap-vue.min.js"></script>
+		<!--<script src="https://unpkg.com/vuex@3/dist/vuex.js"></script>-->
+		<script src="https://unpkg.com/vuex@3/dist/vuex.min.js"></script>
+
+		<!-- Load the following for BootstrapVueIcons support -->
+		<script src="https://unpkg.com/bootstrap-vue@2/dist/bootstrap-vue-icons.min.js"></script>
+
+		<script src="https://unpkg.com/vue-chartjs@3/dist/vue-chartjs.min.js"></script>
+
+		<script type="module" src="./built/App.js"></script>
+		<link rel="stylesheet" href="./styles/App.css">
+
+		<!-- custom bootstrap & bootstrap-vue build -->
+		<link id="light" rel="stylesheet" href="./styles/light.css">
+		<link id="dark" rel="stylesheet" href="./styles/dark.css">
+		<script type="module" src="./built/ThemeHandler.js"></script>
 	</head>
 	<body>
-		<div id="hidden"></div>
-		<div id="main">
-			<div class="mainLeft">
-				<table id="entries">
-					<thead>
-						<tr>
-							<th>Session</th>
-							<th>SR</th>
-							<th>Rolle</th>
-							<th>Teamgröße</th>
-							<th>W/L/D</th>
-							<th>Season</th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody>
-					</tbody>
-				</table>
-			</div>
-			<div class="mainMid">
-				<div id="info">
-					<h2 id="seasonHeader"></h2>
-					<table id="infoTable" class="midTable">
-						<thead>
-							<tr>
-								<th></th>
-								<th>Tank</th>
-								<th>DPS</th>
-								<th>Support</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<th>Career High</th>
-								<td>0</td>
-								<td>0</td>
-								<td>0</td>
-							</tr>
-							<tr>
-								<th>Career Low</th>
-								<td>0</td>
-								<td>0</td>
-								<td>0</td>
-							</tr>
-							<tr class="border"></tr>
-							<tr>
-								<th>SR / Win</th>
-								<td>0</td>
-								<td>0</td>
-								<td>0</td>
-							</tr>
-							<tr>
-								<th>SR / Loss</th>
-								<td>0</td>
-								<td>0</td>
-								<td>0</td>
-							</tr>
-							<tr class="border"></tr>
-							<tr>
-								<th>Session Gain</th>
-								<td>0</td>
-								<td>0</td>
-								<td>0</td>
-							</tr>
-						</tbody>
-					</table>
-					<p id="sessionResult"></p>
-				</div>
-				<div id="stats">
-					<h2>letzten 10 Spiele</h2>
-					<span>Rolle</span>
-					<select class="role" onchange="window.updateStats()">
-						<option value="All">All</option>
-						<option value="Tank">Tank</option>
-						<option value="DPS">DPS</option>
-						<option value="Support">Support</option>
-					</select>
-					<div class="table"></div>
-				</div>
-			</div>
-			<div class="mainRight">
-				<select class="season" onchange="window.updateSeasonStats()">
-				</select>
-				<div class="canvasContainer">
-					<canvas id="ctxWinRate"></canvas>
-				</div>
-				<div class="canvasContainer">
-					<canvas id="ctxGames"></canvas>
-				</div>
-				<div class="canvasContainer">
-					<canvas id="ctxProgress1"></canvas>
-				</div>
-				<div class="canvasContainer">
-					<canvas id="ctxProgress2" style="display:none"></canvas>
-				</div>
-				<select id=progressSelect onchange="window.setProgressChart()">
-					<option value="ctxProgress2">All Games</option>
-					<option selected value="ctxProgress1">Last 20 Games</option>
-				</select>
-			</div>
-
-			<div class="footer">
-				<button onclick="window.addRow()">Neuer Eintrag</button>
-				<button id="btnExport" onclick="window.exportEntries()">Export</button>
-				<button id="btnImport" onclick="window.importEntries()">Import</button>
-				<input id="cbxDirtyState" type="checkbox"/>
-				<label for="cbxDirtyState">ignore dirtyState</label>
-			</div>
-		</div>
+		<div id="app"></div>
 	</body>
 	<script
 		data-label="Check out the GitHub repository!"
 		data-href="https://github.com/H0rn0chse/OverwatchWebApp"
 		data-target="_blank"
-		src="https://unpkg.com/github-corners@latest/dist/embed.min.js" >
+		src="https://unpkg.com/github-corners@latest/dist/embed.min.js">
 	</script>
-	<div id="acknowledgements" title="Acknowledgements"></div>
 </html>

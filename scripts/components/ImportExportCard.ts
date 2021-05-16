@@ -66,7 +66,7 @@ export const ImportExportCard = Vue.component("import-export-card", {
                 return !this.ignoreDirtyState;
             },
             set (newChecked) {
-                this.setIgnoreDirtyState(newChecked);
+                this.setIgnoreDirtyState(!newChecked);
             }
         },
     },

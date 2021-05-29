@@ -31,9 +31,19 @@
 		<link id="light" rel="stylesheet" href="./styles/light.css">
 		<link id="dark" rel="stylesheet" href="./styles/dark.css">
 		<script type="module" src="./built/ThemeHandler.js"></script>
+
+		<!-- toggleButton dependencies -->
+		<script src="https://unpkg.com/@lottiefiles/lottie-player@0.4.0/dist/lottie-player.js"></script>
+		<link id="dark" rel="stylesheet" href="./styles/button.css">
 	</head>
 	<body>
 		<div id="app"></div>
+		<div id="toggleContainer" class="toggleButton">
+			<lottie-player
+				id="toggleButton"
+				style="width: 150px; height: 150px"
+			>
+		</div>
 	</body>
 	<script
 		data-label="Check out the GitHub repository!"

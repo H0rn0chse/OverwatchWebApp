@@ -9,6 +9,7 @@ import { ChartWinRate } from "./components/ChartWinRate.js";
 import { ChartOptions } from "./components/ChartOptions.js";
 import { ImportExportCard } from "./components/ImportExportCard.js";
 import { getDirtyState } from "./DirtyState.js";
+import { Button } from "./toggleButton/Button.js";
 
 const { Vue, Vuex } = (globalThis as any);
 
@@ -33,6 +34,8 @@ window.addEventListener("beforeunload", (event) => {
         return message;
     }
 });
+
+const toggleButton = new Button(document.querySelector("#toggleButton"), document.querySelector("#toggleContainer"));
 
 const app = new Vue({
     el: "#app",

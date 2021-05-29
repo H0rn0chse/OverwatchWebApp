@@ -1,0 +1,21 @@
+#toggleContainer {
+    position: fixed;
+    top: 3.5em;
+    right: 1.5em;
+    z-index: 1;
+
+    /* animation button occupys a larger square */
+    width: 91px;
+    height: 42px;
+    overflow: hidden;
+
+    /* center content */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.toggleButton {
+    cursor: pointer;
+}

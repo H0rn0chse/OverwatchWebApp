@@ -7,7 +7,9 @@ class _ThemeHandler {
             dark: document.querySelector("#dark"),
         };
 
-        this._initWatcher();
+        const savedTheme = localStorage.getItem("theme");
+        const systemTheme = this._initWatcher();
+        this._initThemes(savedTheme || systemTheme);
     }
 
     _getInverseTheme (theme) {
@@ -24,10 +26,10 @@ class _ThemeHandler {
         const colorSchemeQueryList = window.matchMedia("(prefers-color-scheme: dark)");
         colorSchemeQueryList.addEventListener("change", (evt) => {
             const preferDark = colorSchemeQueryList.matches;
-            this.selectTheme(preferDark ? "dark" : "light");
+            this.setTheme(preferDark ? "dark" : "light");
         });
         const preferDark = colorSchemeQueryList.matches;
-        this._initThemes(preferDark ? "dark" : "light");
+        return preferDark ? "dark" : "light";
     }
 
     _initThemes (theme) {
@@ -37,7 +39,7 @@ class _ThemeHandler {
         appState.commit('setTheme', { theme });
     }
 
-    selectTheme (theme) {
+    setTheme (theme) {
         if (this.currentTheme === theme) {
             return;
         }
@@ -52,6 +54,8 @@ class _ThemeHandler {
         const activeTheme = this._getInverseTheme(theme);
         activeTheme.remove();
         this.currentTheme = theme;
+
+        localStorage.setItem("theme", theme);
     }
 
     getTheme () {

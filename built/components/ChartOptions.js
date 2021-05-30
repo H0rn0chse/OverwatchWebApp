@@ -1,3 +1,4 @@
+import { Button } from "../toggleButton/Button.js";
 const { Vue, Vuex } = globalThis;
 const { mapState, mapActions } = Vuex;
 export const ChartOptions = Vue.component("chart-options", {
@@ -18,6 +19,8 @@ export const ChartOptions = Vue.component("chart-options", {
                 :options="options"
                 style="min-width: 9em;"
             />
+            <div class="ml-1" ref="toggleButton">
+            </div>
         </div>
     `,
     props: [],
@@ -47,6 +50,9 @@ export const ChartOptions = Vue.component("chart-options", {
                 { text: "Last 20 Games", value: "lastGames" },
             ]
         };
+    },
+    mounted() {
+        const button = new Button(this.$refs.toggleButton, { width: 80 });
     },
     methods: Object.assign({}, mapActions([
         "selectSeason",

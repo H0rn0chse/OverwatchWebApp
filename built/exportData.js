@@ -2,7 +2,7 @@ import { setDirtyState } from "./DirtyState.js";
 import { getItems } from "./ItemManager.js";
 export function exportEntries() {
     const text = JSON.stringify(getItems());
-    download(text, 'entries.txt', 'text/plain');
+    download(text, 'OverwatchWebApp.json', 'text/plain');
     setDirtyState(false);
 }
 function download(content, fileName, contentType) {

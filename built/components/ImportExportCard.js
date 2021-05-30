@@ -7,7 +7,7 @@ const { mapActions, mapState } = Vuex;
 const _fileHandler = document.createElement("input");
 _fileHandler.setAttribute('id', "FileHandler");
 _fileHandler.setAttribute('type', 'file');
-_fileHandler.setAttribute('accept', '.txt');
+_fileHandler.setAttribute('accept', '.json,.txt');
 _fileHandler.setAttribute('multiple', "false");
 _fileHandler.onchange = _handleFileSelect.bind(this);
 function _handleFileSelect(event) {

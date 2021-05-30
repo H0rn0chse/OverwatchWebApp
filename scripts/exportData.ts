@@ -3,7 +3,7 @@ import { getItems } from "./ItemManager.js";
 
 export function exportEntries () {
 	const text = JSON.stringify(getItems());
-    download(text, 'entries.txt', 'text/plain');
+    download(text, 'OverwatchWebApp.json', 'text/plain');
     setDirtyState(false)
 }
 

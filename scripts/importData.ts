@@ -17,7 +17,7 @@ function _addLoadFile () {
 	const _fileHandler = document.createElement("input");
 	_fileHandler.setAttribute('id', "FileHandler");
 	_fileHandler.setAttribute('type', 'file');
-	_fileHandler.setAttribute('accept', '.txt');
+	_fileHandler.setAttribute('accept', '.json,.txt');
 	_fileHandler.setAttribute('multiple', "false");
 	document.getElementById("hidden").appendChild(_fileHandler);
 

@@ -3,7 +3,6 @@ import { getItems, getLastUpdate, loadFromLocalStorage, saveItems, setItems } fr
 import { calcStats, getCareerStats, getCurrentSeason, getEnhancedEntries, getSeasonList, getSeasonStats, getSessionStats } from "./stats.js";
 import { indexByProperty } from "./utils.js";
 import { getIgnoreDirtyState, setDirtyState, setIgnoreDirtyState } from "./DirtyState.js";
-import { ThemeHandler } from "./ThemeHandler.js";
 
 const { Vuex, _ } = globalThis;
 

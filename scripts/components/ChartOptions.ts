@@ -1,6 +1,7 @@
-import { Button } from "../toggleButton/Button.js";
+import { appState } from "../AppState.js";
 
 const { Vue, Vuex } = (globalThis as any);
+const { Button, ThemeHandler } = globalThis.darkModeToggle;
 
 const { mapState, mapActions } = Vuex;
 
@@ -59,7 +60,13 @@ export const ChartOptions = Vue.component("chart-options", {
         };
     },
     mounted () {
-        const button = new Button(this.$refs.toggleButton, { width: 80 });
+        appState.commit("setTheme", { theme: ThemeHandler.getTheme() });
+
+        const button = new Button(this.$refs.toggleButton, { height: 38 });
+
+        ThemeHandler.on("themeLoaded", (evt) => {
+            appState.commit("setTheme", { theme: evt.theme });
+        });
     },
     methods: {
         ...mapActions([

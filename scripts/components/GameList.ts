@@ -148,7 +148,7 @@ export const GameList = Vue.component("game-list", {
                 if (shouldFocusLastRow) {
                     const rows = this.$el.children[0].children[0].children[1].children;
                     const item = _.last(rows);
-                    item.scrollIntoView();
+                    item?.scrollIntoView();
                 }
             });
         },

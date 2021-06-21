@@ -60,7 +60,10 @@ const app = new Vue({
                     <last-games/>
                     <import-export-card/>
                 </b-col>
-                <b-col class="h-100 d-flex flex-column">
+                <b-col
+                    class="h-100 d-flex flex-column"
+                    style="overflow:hidden;"
+                >
                     <b-row class="w-100 justify-content-center">
                         <chart-options/>
                     </b-row>
@@ -68,7 +71,7 @@ const app = new Vue({
                         <b-col class="p-3">
                             <chart-win-rate
                                 class="position-relative m-auto"
-                                style="height:calc((100vh - 150px) / 3); width:80%"
+                                style="height:calc((100vh - 170px) / 3); width:80%"
                             />
                         </b-col>
                     </b-row>
@@ -76,7 +79,7 @@ const app = new Vue({
                         <b-col class="p-3">
                             <chart-games-played
                                 class="position-relative m-auto"
-                                style="height:calc((100vh - 150px) / 3); width:80%"
+                                style="height:calc((100vh - 170px) / 3); width:80%"
                             />
                         </b-col>
                     </b-row>
@@ -84,7 +87,7 @@ const app = new Vue({
                         <b-col class="p-3">
                             <chart-sr-progress
                                 class="position-relative m-auto"
-                                style="height:calc((100vh - 150px) / 3); width:80%"
+                                style="height:calc((100vh - 170px) / 3); width:80%"
                             />
                         </b-col>
                     </b-row>
@@ -92,7 +95,7 @@ const app = new Vue({
                         <b-col class="p-3">
                             <chart-sr-progress-all
                                 class="position-relative m-auto"
-                                style="height:calc((100vh - 150px) / 3); width:80%"
+                                style="height:calc((100vh - 170px) / 3); width:80%"
                             />
                         </b-col>
                     </b-row>

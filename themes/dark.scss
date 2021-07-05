@@ -61,6 +61,13 @@ $theme-colors: (
     }
 }
 
+.smallTable.table {
+    font-size: 0.8em;
+    th, tr, td {
+        padding: 0.5em;
+    }
+}
+
 .table {
     .custom-select {
         background-color: $custom-select-bg;
@@ -70,5 +77,11 @@ $theme-colors: (
 
     th {
         top: -1px !important;
+    }
+
+    .table-highlight {
+        background-color: $table-accent-bg;
+        color: $body-color;
+        font-weight: bold;
     }
 }

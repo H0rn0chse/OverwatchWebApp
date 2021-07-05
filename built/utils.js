@@ -1,3 +1,4 @@
+import { RANKS } from "./Constants.js";
 export function avgArray(arr, digits = 0) {
     const avg = arr.reduce((acc, val) => {
         return acc += parseFloat(val);
@@ -51,4 +52,28 @@ export function mergeChartJsData(target, source) {
             targetDataset.data[index] = value;
         });
     });
+}
+export function getRank(sr = "0") {
+    var parsedSr = parseInt(sr.toString(), 10);
+    if (parsedSr >= 4000) {
+        return RANKS.grandmaster;
+    }
+    if (parsedSr >= 3500 && parsedSr < 4000) {
+        return RANKS.master;
+    }
+    if (parsedSr >= 3000 && parsedSr < 3500) {
+        return RANKS.diamond;
+    }
+    if (parsedSr >= 2500 && parsedSr < 3000) {
+        return RANKS.platinum;
+    }
+    if (parsedSr >= 2000 && parsedSr < 2500) {
+        return RANKS.gold;
+    }
+    if (parsedSr >= 1500 && parsedSr < 2000) {
+        return RANKS.silver;
+    }
+    if (parsedSr < 1500) {
+        return RANKS.bronze;
+    }
 }

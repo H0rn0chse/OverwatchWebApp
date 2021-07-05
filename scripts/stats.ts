@@ -414,7 +414,8 @@ export function getSeasonStats () {
 		srLoss: [0, 0, 0],
         srWin: [0, 0, 0],
         high: [0, 0, 0],
-        low: [0, 0, 0]
+        low: [0, 0, 0],
+        currentSr: [0, 0, 0]
 	}
 	ROLES.forEach((role, index) => {
         const roleStats = calcStats(role, season);
@@ -425,6 +426,12 @@ export function getSeasonStats () {
 		seasonStats.srLoss[index] = seasonStats.srLoss[index].toFixed(1);
 		seasonStats.srWin[index] = roleStats.srWin || 0;
         seasonStats.srWin[index] = seasonStats.srWin[index].toFixed(1);
+        seasonStats.high[index] = roleStats.high || 0;
+        seasonStats.high[index] = seasonStats.high[index].toFixed(0);
+        seasonStats.low[index] = roleStats.low || 0;
+        seasonStats.low[index] = seasonStats.low[index].toFixed(0);
+        seasonStats.currentSr[index] = roleStats.currentSr || 0;
+        seasonStats.currentSr[index] = seasonStats.currentSr[index].toFixed(0);
 	});
 
 	return seasonStats;

@@ -5,6 +5,7 @@ import { indexByProperty } from "./utils.js";
 import { getIgnoreDirtyState, setDirtyState, setIgnoreDirtyState } from "./DirtyState.js";
 
 const { Vuex, _ } = globalThis;
+const { ThemeHandler } = globalThis.darkModeToggle;
 
 loadFromLocalStorage();
 
@@ -130,5 +131,10 @@ export const appState = new Vuex.Store({
 });
 globalThis.AppState = appState;
 
-// calculate once
+// update appState
 appState.commit('updateAll');
+appState.commit("setTheme", { theme: ThemeHandler.getTheme() });
+
+ThemeHandler.on("themeLoaded", (evt) => {
+    appState.commit("setTheme", { theme: evt.theme });
+});

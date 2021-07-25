@@ -1,7 +1,4 @@
-import { appState } from "../AppState.js";
-
 const { Vue, Vuex } = (globalThis as any);
-const { Button, ThemeHandler } = globalThis.darkModeToggle;
 
 const { mapState, mapActions } = Vuex;
 
@@ -23,8 +20,9 @@ export const ChartOptions = Vue.component("chart-options", {
                 :options="options"
                 style="min-width: 9em;"
             />
-            <div class="ml-1" ref="toggleButton">
-            </div>
+            <dark-mode-toggle
+                height="38"
+            />
         </div>
     `,
     props: [ ],
@@ -58,15 +56,6 @@ export const ChartOptions = Vue.component("chart-options", {
                 { text: "Last 20 Games", value: "lastGames" },
             ]
         };
-    },
-    mounted () {
-        appState.commit("setTheme", { theme: ThemeHandler.getTheme() });
-
-        const button = new Button(this.$refs.toggleButton, { height: 38 });
-
-        ThemeHandler.on("themeLoaded", (evt) => {
-            appState.commit("setTheme", { theme: evt.theme });
-        });
     },
     methods: {
         ...mapActions([

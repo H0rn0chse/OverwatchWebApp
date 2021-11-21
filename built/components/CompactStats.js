@@ -55,15 +55,16 @@ export const CompactStats = Vue.component("compact-stats", {
             let items = new Array(this.rows.length).fill(0);
             return items.map((value, index) => {
                 const row = this.rows[index];
+                const rowValues = this[row.prop][row.path];
                 return {
                     header: row.header,
                     highlight: row.highlight,
-                    tank: this[row.prop][row.path][0],
-                    tankIcon: this.rows[index].showIcon ? getRank(this[row.prop][row.path][0]).path : "",
-                    dps: this[row.prop][row.path][1],
-                    dpsIcon: this.rows[index].showIcon ? getRank(this[row.prop][row.path][1]).path : "",
-                    support: this[row.prop][row.path][2],
-                    supportIcon: this.rows[index].showIcon ? getRank(this[row.prop][row.path][2]).path : "",
+                    tank: rowValues[0],
+                    tankIcon: this.rows[index].showIcon && rowValues[0] > 0 ? getRank(rowValues[0]).path : "",
+                    dps: rowValues[1],
+                    dpsIcon: this.rows[index].showIcon && rowValues[1] > 0 ? getRank(rowValues[1]).path : "",
+                    support: rowValues[2],
+                    supportIcon: this.rows[index].showIcon && rowValues[2] > 0 ? getRank(rowValues[2]).path : "",
                 };
             });
         } }, mapState([

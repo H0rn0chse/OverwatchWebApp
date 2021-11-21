@@ -1,5 +1,5 @@
 import { COLORS, ROLES, SESSION_TIMEOUT } from "./Constants.js";
-import { getItems, getLastUpdate, loadFromLocalStorage, saveItems, setItems } from "./ItemManager.js";
+import { getItems, getLastUpdate, getOption, loadFromLocalStorage, saveItems, setItems, setOption } from "./ItemManager.js";
 import { calcStats, getCareerStats, getCurrentSeason, getEnhancedEntries, getSeasonList, getSeasonStats, getSessionStats } from "./stats.js";
 import { indexByProperty } from "./utils.js";
 import { getIgnoreDirtyState, setDirtyState, setIgnoreDirtyState } from "./DirtyState.js";
@@ -21,7 +21,7 @@ export const appState = new Vuex.Store({
         seasons: [],
         selectedSeason: "All",
         stats: {},
-        selectedChartOption: "all",
+        selectedChartOption: getOption("selectedChartOption") ?? "all",
         ignoreDirtyState: getIgnoreDirtyState(),
         theme: "",
         lastCount: getOption("lastCount") ?? 0,
@@ -89,6 +89,7 @@ export const appState = new Vuex.Store({
         },
         selectChartOption (state, param) {
             state.selectedChartOption = param.id;
+            setOption("selectedChartOption", param.id);
         },
         setIgnoreDirtyState (state, param) {
             state.ignoreDirtyState = param.value;
@@ -100,7 +101,7 @@ export const appState = new Vuex.Store({
         },
         setLastCount (state, param) {
             state.lastCount = param.value;
-            setOption("lastCount", state.lastCount);
+            setOption("lastCount", param.value);
         }
     },
     actions: {

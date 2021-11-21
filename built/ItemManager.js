@@ -1,6 +1,7 @@
 import { setDirtyState } from "./DirtyState.js";
 var items = [];
 var options;
+const optionsKey = "options_overwatchapp";
 ;
 export function loadFromLocalStorage() {
     items = JSON.parse(localStorage.getItem("items")) || [];
@@ -26,14 +27,17 @@ export function setLastUpdate() {
 export function getOption(optionName) {
     var _a;
     if (!options) {
-        options = JSON.parse(localStorage.getItem("options")) || {};
+        options = JSON.parse(localStorage.getItem(optionsKey)) || {};
     }
     return (_a = options[optionName]) !== null && _a !== void 0 ? _a : null;
 }
 export function setOption(optionName, value) {
     if (!options) {
-        options = JSON.parse(localStorage.getItem("options")) || {};
+        options = JSON.parse(localStorage.getItem(optionsKey)) || {};
     }
     options[optionName] = value;
-    localStorage.setItem("options", JSON.stringify(options));
+    localStorage.setItem(optionsKey, JSON.stringify(options));
 }
+globalThis._resetOptions = function () {
+    localStorage.setItem(optionsKey, "{}");
+};

@@ -1,5 +1,6 @@
 import { setDirtyState } from "./DirtyState.js";
 var items = [];
+var options;
 ;
 export function loadFromLocalStorage() {
     items = JSON.parse(localStorage.getItem("items")) || [];
@@ -21,4 +22,18 @@ export function getLastUpdate() {
 }
 export function setLastUpdate() {
     localStorage.setItem("lastUpdate", new Date().getTime().toString());
+}
+export function getOption(optionName) {
+    var _a;
+    if (!options) {
+        options = JSON.parse(localStorage.getItem("options")) || {};
+    }
+    return (_a = options[optionName]) !== null && _a !== void 0 ? _a : null;
+}
+export function setOption(optionName, value) {
+    if (!options) {
+        options = JSON.parse(localStorage.getItem("options")) || {};
+    }
+    options[optionName] = value;
+    localStorage.setItem("options", JSON.stringify(options));
 }

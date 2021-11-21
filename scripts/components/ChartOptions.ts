@@ -4,25 +4,39 @@ const { mapState, mapActions } = Vuex;
 
 export const ChartOptions = Vue.component("chart-options", {
     template: `
-        <div class="d-flex flex-row align-items-center">
-            <div class="pr-3">
-                Season:
+        <div class="d-flex flex-column">
+            <div class="d-flex flex-row align-items-center">
+                <div class="pr-3">
+                    Season:
+                </div>
+                <b-form-select
+                    v-model="selectedSeasonLocal"
+                    :options="seasons"
+                />
+                <div  class="px-3">
+                    SR&nbsp;Progress:
+                </div>
+                <b-form-select
+                    v-model="selectedChartOptionLocal"
+                    :options="options"
+                    style="min-width: 9em;"
+                />
+                <dark-mode-toggle
+                    height="38"
+                />
             </div>
-            <b-form-select
-                v-model="selectedSeasonLocal"
-                :options="seasons"
-            />
-            <div  class="px-3">
-                SR&nbsp;Progress:
+            <div class="d-flex flex-row align-items-center">
+                <div class="pr-3">
+                    Last Items <small><i>(0=All)</i></small>:
+                </div>
+                <b-form-input
+                    min=0
+                    type=number
+                    v-model="lastCountLocal"
+                    style="max-width: 5em;"
+                    lazy
+                />
             </div>
-            <b-form-select
-                v-model="selectedChartOptionLocal"
-                :options="options"
-                style="min-width: 9em;"
-            />
-            <dark-mode-toggle
-                height="38"
-            />
         </div>
     `,
     props: [ ],
@@ -31,6 +45,7 @@ export const ChartOptions = Vue.component("chart-options", {
             "selectedSeason",
             "seasons",
             "selectedChartOption",
+            "lastCount"
         ]),
         selectedSeasonLocal: {
             get () {
@@ -48,6 +63,14 @@ export const ChartOptions = Vue.component("chart-options", {
                 this.selectChartOption(newOption);
             }
         },
+        lastCountLocal: {
+            get () {
+                return this.lastCount;
+            },
+            set (newCount) {
+                this.setLastCount(newCount);
+            }
+        }
     },
     data () {
         return {
@@ -60,7 +83,8 @@ export const ChartOptions = Vue.component("chart-options", {
     methods: {
         ...mapActions([
             "selectSeason",
-            "selectChartOption"
+            "selectChartOption",
+            "setLastCount"
         ]),
     }
 });

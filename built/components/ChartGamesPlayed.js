@@ -44,7 +44,7 @@ export const ChartGamesPlayed = Vue.component("chart-games-played", {
         },
         chartData() {
             return {
-                labels: ["Avg", "1", "2", "3", "4", "5", "6"],
+                labels: ["All", "1", "2", "3", "4", "5", "6"],
                 datasets: this.roles.map((role, index) => {
                     return {
                         label: role,

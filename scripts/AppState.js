@@ -24,6 +24,7 @@ export const appState = new Vuex.Store({
         selectedChartOption: "all",
         ignoreDirtyState: getIgnoreDirtyState(),
         theme: "",
+        lastCount: getOption("lastCount") ?? 0,
     },
     mutations: {
         updateAll (state) {
@@ -96,6 +97,10 @@ export const appState = new Vuex.Store({
         setTheme (state, param) {
             Chart.defaults.global.defaultFontColor = getComputedStyle(document.body).getPropertyValue('--chart-color');
             state.theme = param.theme;
+        },
+        setLastCount (state, param) {
+            state.lastCount = param.value;
+            setOption("lastCount", state.lastCount);
         }
     },
     actions: {
@@ -126,6 +131,10 @@ export const appState = new Vuex.Store({
         },
         setIgnoreDirtyState (context, value) {
             context.commit('setIgnoreDirtyState', { value });
+        },
+        setLastCount (context, value) {
+            context.commit('setLastCount', { value });
+            context.commit('updateAll');
         },
     },
 });

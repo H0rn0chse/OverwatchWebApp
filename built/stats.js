@@ -1,3 +1,4 @@
+import { appState } from "./AppState.js";
 import { ROLES } from "./Constants.js";
 import { getItems } from "./ItemManager.js";
 import { deepClone } from "./utils.js";
@@ -235,7 +236,11 @@ function getEntries(role, season = "All") {
     }, []);
 }
 export function calcStats(role, season = "All") {
-    const entries = getEntries(role, season);
+    let entries = getEntries(role, season);
+    const lastCount = appState.state.lastCount;
+    if (lastCount && lastCount > 0) {
+        entries = entries.splice(-lastCount);
+    }
     const lastEntry = entries[entries.length - 1] || { sr: 0 };
     const currentSession = getCurrentSession();
     const sessionEntries = filterIf(entries, [["session", currentSession]]);
@@ -413,6 +418,9 @@ export function getSeasonList() {
     const entries = getEnhancedEntries();
     let seasons = entries.map(e => e.season);
     seasons = [...new Set(seasons)]
+        .sort((a, b) => {
+        return b - a;
+    })
         .map((season) => {
         return {
             value: season,

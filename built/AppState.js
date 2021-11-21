@@ -1,5 +1,6 @@
+var _a;
 import { COLORS, ROLES, SESSION_TIMEOUT } from "./Constants.js";
-import { getItems, getLastUpdate, loadFromLocalStorage, saveItems, setItems } from "./ItemManager.js";
+import { getItems, getLastUpdate, getOption, loadFromLocalStorage, saveItems, setItems, setOption } from "./ItemManager.js";
 import { calcStats, getCareerStats, getCurrentSeason, getEnhancedEntries, getSeasonList, getSeasonStats, getSessionStats } from "./stats.js";
 import { indexByProperty } from "./utils.js";
 import { getIgnoreDirtyState, setDirtyState, setIgnoreDirtyState } from "./DirtyState.js";
@@ -21,6 +22,7 @@ export const appState = new Vuex.Store({
         selectedChartOption: "all",
         ignoreDirtyState: getIgnoreDirtyState(),
         theme: "",
+        lastCount: (_a = getOption("lastCount")) !== null && _a !== void 0 ? _a : 0,
     },
     mutations: {
         updateAll(state) {
@@ -90,6 +92,10 @@ export const appState = new Vuex.Store({
         setTheme(state, param) {
             Chart.defaults.global.defaultFontColor = getComputedStyle(document.body).getPropertyValue('--chart-color');
             state.theme = param.theme;
+        },
+        setLastCount(state, param) {
+            state.lastCount = param.value;
+            setOption("lastCount", state.lastCount);
         }
     },
     actions: {
@@ -120,6 +126,10 @@ export const appState = new Vuex.Store({
         },
         setIgnoreDirtyState(context, value) {
             context.commit('setIgnoreDirtyState', { value });
+        },
+        setLastCount(context, value) {
+            context.commit('setLastCount', { value });
+            context.commit('updateAll');
         },
     },
 });

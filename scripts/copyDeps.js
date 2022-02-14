@@ -8,6 +8,8 @@ const projectDir = path.join(__dirname, "../");
 const dependencies = [[
     "/node_modules/chart.js/dist/", "/libs/chart.js"
 ], [
+    "/node_modules/lodash/", "/libs/lodash"
+], [
     "/node_modules/bootstrap/dist/", "/libs/bootstrap"
 ], [
     "/node_modules/bootstrap-vue/dist/", "/libs/bootstrap-vue"

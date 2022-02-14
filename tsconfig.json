@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-      "outDir": "./client",
+      "outDir": "./client/scripts",
       "allowJs": true,
       "target": "es6",
       "allowUmdGlobalAccess": true,

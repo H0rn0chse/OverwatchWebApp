@@ -6,17 +6,27 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
+    "build": "tsc --build",
     "watch": "tsc --watch",
-    "watchSass": "sass --watch themes/dark.scss:styles/dark.css themes/light.scss:styles/light.css --style=compressed --load-path=node_modules"
+    "watchThemes": "sass --watch src/themes/dark.scss:client/themes/dark.css src/themes/light.scss:client/themes/light.css --style=compressed --load-path=node_modules",
+    "buildThemes": "sass src/themes/dark.scss:client/themes/dark.css src/themes/light.scss:client/themes/light.css --style=compressed --load-path=node_modules"
   },
   "author": "",
   "license": "GPL-3.0",
-  "dependencies": {},
+  "dependencies": {
+    "@h0rn0chse/dark-mode-toggle": "^2.0.3",
+    "bootstrap": "^4.6.1",
+    "bootstrap-vue": "^2.21.2",
+    "chart.js": "^2.9.4",
+    "lottie-web": "^5.7.14",
+    "vue": "^2.6.14",
+    "vue-chartjs": "^3.5.1",
+    "vuex": "^3.6.2",
+    "wc-github-corners": "^0.1.5"
+  },
   "devDependencies": {
     "@h0rn0chse/socket-server": "^1.1.1",
     "@types/chart.js": "^2.9.28",
-    "bootstrap": "^4.6.0",
-    "bootstrap-vue": "^2.21.2",
     "moment": "^2.29.1",
     "sass": "^1.32.13",
     "typescript": "^4.1.2"

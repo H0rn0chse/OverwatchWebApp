@@ -19,11 +19,10 @@ Generally you declare your placements via `Win`, `Loss` and `Draw` with a SR of 
 
 ## Libraries
  * Chart.js [github.com/chartjs/Chart.js](https://github.com/chartjs/Chart.js)
- * Github Corners [github.com/remarkablemark/github-corners](https://github.com/remarkablemark/github-corners)
+ * Github Corners [github.com/YunYouJun/wc-github-corners](https://github.com/YunYouJun/wc-github-corners)
  * Vue.js [github.com/vuejs/vue](https://github.com/vuejs/vue)
  * Vuex [github.com/vuejs/vuex](https://github.com/vuejs/vuex)
  * vue-chartjs [github.com/apertureless/vue-chartjs](https://github.com/apertureless/vue-chartjs)
  * BootstrapVue [github.com/bootstrap-vue/bootstrap-vue](https://github.com/bootstrap-vue/bootstrap-vue)
  * Bootstrap [github.com/twbs/bootstrap](https://github.com/twbs/bootstrap)
- * lodash [github.com/lodash/lodash](https://github.com/lodash/lodash)
  * dark-mode-toggle [github.com/H0rn0chse/dark-mode-toggle](https://github.com/H0rn0chse/dark-mode-toggle)

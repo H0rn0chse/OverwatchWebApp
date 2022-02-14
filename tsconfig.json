@@ -1,10 +1,10 @@
 {
     "compilerOptions": {
-      "outDir": "./built",
+      "outDir": "./client",
       "allowJs": true,
       "target": "es6",
       "allowUmdGlobalAccess": true,
       "moduleResolution": "node"
     },
-    "include": ["./scripts/**/*"]
+    "include": ["./src/scripts/**/*"]
   }

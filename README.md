@@ -25,5 +25,6 @@ Generally you declare your placements via `Win`, `Loss` and `Draw` with a SR of 
  * vue-chartjs [github.com/apertureless/vue-chartjs](https://github.com/apertureless/vue-chartjs)
  * BootstrapVue [github.com/bootstrap-vue/bootstrap-vue](https://github.com/bootstrap-vue/bootstrap-vue)
  * Bootstrap [github.com/twbs/bootstrap](https://github.com/twbs/bootstrap)
+ * Feather Icons [github.com/feathericons/feather](https://github.com/feathericons/feather)
  * lodash [github.com/lodash/lodash](https://github.com/lodash/lodash)
  * dark-mode-toggle [github.com/H0rn0chse/dark-mode-toggle](https://github.com/H0rn0chse/dark-mode-toggle)

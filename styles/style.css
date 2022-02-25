@@ -1,0 +1,115 @@
+:root {
+    --background: #e4e4e4;
+    --color: #444;
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+		--background: #444;
+		--color: #e4e4e4;
+    }
+}
+
+.left {
+	float: left;
+	width: 30%;
+	height: 90vh;
+	overflow: auto;
+}
+
+body {
+	overflow: hidden;
+	clear:both;
+	background-color: var(--background);
+	color: var(--color);
+	font-family: Roboto, sans-serif;
+}
+
+th {
+	position: sticky;
+	top: 0;
+	background: var(--background);
+}
+
+td.session, td.session * {
+	width: 50px;
+	text-align: center;
+}
+
+td.sr, td.sr * {
+	width: 80px;
+	text-align: center;
+}
+
+td.size, td.size * {
+	width: 50px;
+	text-align: center;
+}
+
+td.season, td.season * {
+	width: 50px;
+	text-align: center;
+}
+
+#stats, #stats .table, #info {
+	margin-left: 50px;
+    margin-top: 20px;
+}
+
+#info {
+	font-size: small;
+}
+
+#sessionResult {
+	font-size: medium;
+}
+
+.midTable {
+	border-collapse: collapse;
+}
+
+.midTable th {
+	padding: 0.5em;
+}
+
+.border {
+	height: 0.5em;
+	width: 100%;
+	background-color: var(--color);
+}
+
+.midTable td {
+	padding: 0.5em;
+	border: 1px solid var(--color);
+	text-align: center;
+}
+
+input, select {
+	background-color: var(--background);
+	color: var(--color);
+	border-color: var(--color);
+	border-style: ridge;
+	border-width: 1px;
+}
+
+button {
+	background-color: var(--background);
+	color: var(--color);
+}
+
+#hidden, .hidden {
+	display: none;
+}
+
+#acknowledgements {
+    position: absolute;
+    width: 3em;
+    height: 3em;
+    top: 0.5em;
+    right: 4.5em;
+    cursor: pointer;
+}
+
+#acknowledgements > svg{
+    height: 100%;
+    width: 100%;
+}

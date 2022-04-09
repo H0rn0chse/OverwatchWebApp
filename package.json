@@ -28,7 +28,7 @@
   "devDependencies": {
     "@h0rn0chse/socket-server": "^1.1.1",
     "@types/chart.js": "^2.9.28",
-    "moment": "^2.29.1",
+    "moment": "^2.29.2",
     "sass": "^1.32.13",
     "typescript": "^4.1.2"
   }
